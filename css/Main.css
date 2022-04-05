@@ -1,0 +1,18 @@
+h1 {
+	text-align: center;
+}
+
+h2 {
+    margin-left: 15%;
+}
+
+#entrées{
+    background-color: yellow;
+}
+
+
+label{
+	display: block;
+	width: 300px;
+	float: left;
+}
