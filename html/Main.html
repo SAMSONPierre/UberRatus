@@ -10,19 +10,44 @@
     <script src="js/Main.js"></script>
 </head>
 <body id="body"  data-spy="scroll" data-target=".navbar" data-offset="60">
-<nav id="thenavbar" class="navbar sticky-top navbar-light bg-light navbar-expand-sm">
+<nav id="thenavbar" class="navbar sticky-top-left navbar-light bg-light navbar-expand-sm">
 <div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" aria-controls="mynavBar" aria-expanded="false" aria-label="Toggle navigation">
         <!-- affiche trois barres à la place des liens quand l'écran est
         petit -->
         <span class="navbar-toggler-icon"></span>
     </button>
-    <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-globe"></span></a>
 </div>
 <div class="collapse navbar-collapse" id="myNavbar">
-    <ul id="liens" class="nav nav-pills nav-stacked  mr-auto mt-2 mt-lg-0">
+    <ul id="carte" class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Menu <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Entrées</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Boisson</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Pizza</a>
+        </li>
+
     </ul>
 </div>
+</nav>
+<nav id="panier" class="navbar sticky-top-right  navbar-light bg-light navbar-expand-sm">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myPanier" aria-controls="myPanier" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- affiche trois barres à la place des liens quand l'écran est
+        petit -->
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="myPanier">
+        <ul id="recap" class="navbar">
+
+        </ul>
+    </div>
+
 </nav>
 <div class="container-fluid">
     <div class="row">
