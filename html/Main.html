@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Accueil</title>
-    <link rel="stylesheet" href="css/Main.css">
+    <link rel="stylesheet" href="../css/Main.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <script src="js/Main.js"></script>
+    <script src="../js/Main.js"></script>
 </head>
 <body id="body"  data-spy="scroll" data-target=".navbar" data-offset="60">
 <nav id="thenavbar" class="navbar sticky-top navbar-light bg-light navbar-expand-sm">
@@ -21,11 +21,81 @@
 </div>
 <div class="collapse navbar-collapse" id="myNavbar">
     <ul id="liens" class="nav nav-pills nav-stacked  mr-auto mt-2 mt-lg-0">
+        <li><a href="#menus">Menus</a></li>
+        <li><a href="#pizzas">Pizzas</a></li>
+        <li><a href="#boissons">Boissons</a></li>
+        <li><a href="#entrées">Entrées</a></li>
     </ul>
 </div>
 </nav>
-<div class="container-fluid">
-    <div class="row">
+<div class="container">
+        <h1> Formulaire d'inscription </h1>
+        
+        <form action="" method="get" class>
+            <div class id="menus">
+                <h2>Menus</h2>
+                <label for="sexe">Etat civil </label>
+                <select name="etatcivil" id="sexe">
+                        <option value="M">M.</option>
+                        <option value="Mme">Mme.</option>
+                </select>
+            </div><br>
+            <div class id="pizzas">
+                <h2>Pizzas</h2>
+                <label for="nom">nom</label>
+                <input type="text" name="nom" id="nom" required>
+                </div><br>
+            <div class id="boissons">
+                <h2>Boissons</h2>
+                <label for="prénom">prénom</label>
+                <input type="text" name="prénom" id="prénom" required>
+            </div><br>
+            <div class id="entrées">
+                <h2>Entrées</h2>
+                <label for="complet">Salade Ceasar</label>
+                <input type="checkbox" name="cesar" id="cesar">
+            </div><br>
+
+
+
+
+
+            
+            <div class>
+            <label for="naissance">Date de Naissance</label>
+            <input type="date" name="naissance" id="naissance" min ="1922-01-01" max="2022-02-15" required><br>
+            </div><br>
+            <div class>
+            <label for="niveau">Niveau en JavaScript</label>
+            <input type="range" name="niveau" id="niveau" min="0" max="10" required>
+            <output name="lvl"></output>
+            </div><br>
+            <div class>
+            <label for="couleur">Couleur préférée</label>
+            <input type="color" name="couleur" id="couleur" required>
+            </div><br>
+            <div class>
+            <label for="mdp">Mot de passe</label>
+            <input type="password" name="mdp" id="mdp" required>
+            </div><br>
+            <div class>
+            <label for="mdp2">Confirmer Mot de passe</label>
+            <input type="password" name="mdp2" id="mdp2" required>
+            </div><br>
+            <div class>
+            <label for="affiche">Afficher le mot de passe</label>
+            <input type="checkbox" name="affiche" id="affiche" required>
+            </div><br>
+            <div class>
+            <label for="description">Description</label>
+            <textarea id="descrition" name ="description" rows = "2" cols="30"></textarea>
+            </div><br>
+
+            <div class>
+            <input type="reset" value="Réinitialiser">
+            <input type="submit" name ="submit" value="Envoyer">
+            </div>
+        </form>
     </div>
 </div>
 
