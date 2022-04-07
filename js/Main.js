@@ -6,7 +6,7 @@ $(document).ready (function () {
 	let niveau = $("input[name=niveau]");
 	let lvl = $("output[name=lvl]");
 	let check = $("input[name=affiche]");
-    let cesar = $("input[name=cesar]");
+	let total = 0;
 	ec.change(function(){
 		nC.val(ec.val() + " " + p.val() + " " + n.val());
 	});
@@ -33,16 +33,48 @@ $(document).ready (function () {
 			$("input[name=mdp2]").attr('type','password');
 		}
 	});
-    let entrees = document.getElementById("entrées");
-    let sauce = $('<select name="sauce" id="sauce"><option value="Ketchup">Ketchup</option><option value="Mayo">Mayo</option></select>');
-    cesar.change(function(){
-        if(cesar.prop("checked")){
-            
-            entrees.append(sauce);
-        }
-        else{
-            sauce.remove(entrees);
-        }
-    })
+	function sauce(nom_plat,sauceListe){
+		let entrees = document.getElementById("div_"+nom_plat);
+		let cesar = $("input[name="+nom_plat+"]");
+		let sauce = document.createElement("select");
+		sauce.id = "mySauce";
+		for(var i = 0;i< sauceListe.length;i++){
+			var option = document.createElement("option");
+			option.value = sauceListe[i];
+			option.text = sauceListe[i];
+			sauce.appendChild(option);
+		}
+		
+		cesar.change(function(){
+			if(cesar.prop("checked")){
+				
+				entrees.append(sauce);
+				update_price(true,nom_plat);
+			}
+			else{
+				sauce.remove();
+				update_price(false,nom_plat);
+			}
+		})
+	}
+
+	function update_price(flag,nom_plat){
+		let price = document.getElementById("price_"+nom_plat);
+		if(flag){
+			total += parseInt(price.textContent);
+		}
+		else{
+			total -= parseInt(price.textContent);
+		}
+		let prix = document.getElementById("prix_total");
+		prix.textContent = "Total : " + total + " $."
+	}
+	var sauceListe = ["Ketchup","Mayo","Huile d'olive","Vinaigrette"];
+	sauce("cesar",["Huile d'olive","Vinaigrette"]);
+	sauce("wings",["Ketchup","Mayo"]);
+	sauce("charcut",["Moutarde Forte","Moutarde Douce"]);
+	
+	
+    
 
 });
