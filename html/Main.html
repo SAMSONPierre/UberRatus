@@ -28,18 +28,21 @@
                 <a class="nav-link" href="#entrées">Entrées</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#boissons">Boisson</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="#pizzas">Pizza</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#composition">Pizza</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#boissons">Boisson</a>
+            </li>
+
 
         </ul>
     </div>
 </nav>
-<div class="container">
-        <h1> Formulaire d'inscription </h1>
-
+<div class="container-fluid">
+        <h1> Las pizzas </h1>
         <form action="" method="get" class>
             <div class id="menus">
                 <h2>Menus</h2>
@@ -49,26 +52,27 @@
                         <option value="Mme">Mme.</option>
                 </select>
             </div><br>
-            <div class id="entrées">
+            <div  id="entrées">
                 <h2>Entrées</h2>
-                <div id="div_cesar">
-                    <img id="preview" src="../images/cesar.jpg">
-                    <label for="cesar">Salade Ceasar</label>
-                    <label for="cesar" class="price" id="price_cesar">15$</label>
-                    <input type="checkbox" name="cesar" id="cesar">
-                    
+                <div class="row" id="div_cesar">
+                    <label class="col-sm-2" for="cesar">Salade Ceasar</label>
+                    <label  class="col-sm-2" for="cesar" id="price_cesar">15$</label>
+                    <img class="preview col-sm-2" src="../images/cesar.jpg">
+                    <input  class="col-sm-1" type="checkbox" name="cesar" id="cesar">
+
                 </div><br>
-                <div class id="div_wings">
-                    <img id="preview" src="../images/wings.jpeg">
-                    <label for="wings">Wings</label>
-                    <label for="wings" class="price" id="price_wings">5$</label>
-                    <input type="checkbox" name="wings" id="wings">
+                <div class="row" id="div_wings">
+                    <label class="col-sm-2" for="wings">Wings</label>
+                    <label  class="col-sm-2" for="wings" id="price_wings">5$</label>
+                    <img class="preview col-sm-2" src="../images/wings.jpeg">
+                    <input class="col-sm-1" type="checkbox" name="wings" id="wings">
+
                 </div><br>
-                <div class id="div_charcut">
-                    <img id="preview" src="../images/charcut.jpeg">
-                    <label for="charcut">Charcut</label>
-                    <label for="charcut" class="price" id="price_charcut">11$</label>
-                    <input type="checkbox" name="charcut" id="charcut">
+                <div class="row" id="div_charcut">
+                    <label class="col-sm-2" for="charcut">Charcut</label>
+                    <label  class="col-sm-2" for="charcut" id="price_charcut">11$</label>
+                    <img class="preview col-sm-2" src="../images/charcut.jpeg">
+                    <input class="col-sm-1" type="checkbox" name="charcut" id="charcut">
                 </div><br>
             </div><br>
             <div class id="pizzas">
