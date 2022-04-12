@@ -92,6 +92,29 @@ $(document).ready (function () {
 			}
 		})
 	}
+	function composition(nom_plat,sauceListe){
+		let plat = document.getElementById("div_"+nom_plat);
+		let cesar = $("input[name="+nom_plat+"]");
+		let sauce = document.createElement("select");
+		sauce.id = nom_plat+"_mySauce";
+		for(var i = 0;i< sauceListe.length;i++){
+			var option = document.createElement("option");
+			option.value = sauceListe[i];
+			option.text = sauceListe[i];
+			sauce.appendChild(option);
+		}
+
+		cesar.change(function(){
+			if(cesar.prop("checked")){
+				plat.append(sauce);
+				update_price(true,nom_plat,1);
+			}
+			else{
+				sauce.remove();
+				update_price(false,nom_plat,1);
+			}
+		})
+	}
 
 
 	function update_price(flag,nom_plat,quantité){
@@ -115,12 +138,12 @@ $(document).ready (function () {
 	sauce("margherita",["MEDIUM","LARGE","EXTRA LARGE"]);
 	sauce("calzone",["MEDIUM","LARGE","EXTRA LARGE"]);
 	sauce("napolitaine",["MEDIUM","LARGE","EXTRA LARGE"]);
-	sauce("ingredient1",ingredients);
-	sauce("ingredient2",ingredients);
-	sauce("ingredient3",ingredients);
-	sauce("supplement1",ingredients);
-	sauce("supplement2",ingredients);
-	sauce("supplement3",ingredients);
+	composition("ingredient1",ingredients);
+	composition("ingredient2",ingredients);
+	composition("ingredient3",ingredients);
+	composition("supplement1",ingredients);
+	composition("supplement2",ingredients);
+	composition("supplement3",ingredients);
 
 	boisson("coca");
 	boisson("fanta");
