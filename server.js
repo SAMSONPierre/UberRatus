@@ -4,36 +4,48 @@ const pg = require('pg');
 const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
-database: 'test',
+database: 'ubereats',
 password: 'dinoclier', // à modifier
 port: 5432
 });
 
-async function operations() {
-    const client = await pool.connect();
-    // attente du résultat de la requête :
-    let res = await client.query ("SELECT * FROM client");
-    // chaque nom de colonne correspond à un nom de propriété de res :
-    console.log(res);
-    for(row in res){
-        console.log("t");
-    }
-    console.log("test");
-    // ...
-    // libération du client :
-    client.release();
-    // retour facultatif d'un résultat :
-}
+var entrees;
+var pizzas;
+var boissons;
 
-operations();
+pool.connect();
+pool.query("SELECT * FROM entrees",(err,res)=>{
+    if(!err){
+        entrees = res.rows;
+    }
+    else{
+        console.log(console.error);
+    }
+})
+
+pool.query("SELECT * FROM pizzas",(err,res)=>{
+    if(!err){
+        pizzas = res.rows;
+    }
+    else{
+        console.log(console.error);
+    }
+})
+
+pool.query("SELECT * FROM boissons",(err,res)=>{
+    if(!err){
+        boissons = res.rows;
+    }
+    else{
+        console.log(console.error);
+    }
     
-    
+})
+pool.end;
 
 serv.use(express.static('.'));
-
-
 serv.get('/',function (req,res,next) {
-    res.sendFile("html/Main.html",{root:'.'});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas});
 });
  
 serv.listen(8080);
