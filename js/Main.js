@@ -105,7 +105,7 @@ $(document).ready (function () {
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
 	}
-	var sauceListe = ["Ketchup","Mayo","Huile d'olive","Vinaigrette"];
+	var sauceListe = [];
 	sauce("cesar",["Huile d'olive","Vinaigrette"]);
 	sauce("wings",["Ketchup","Mayo"]);
 	sauce("charcut",["Moutarde Forte","Moutarde Douce"]);
