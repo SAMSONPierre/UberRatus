@@ -16,8 +16,9 @@ h2 {
 	clear:both;
 }
 
-.container{
-	background-color: rgb(171, 171, 171);
+.container-fluid{
+	background-color: rgb(46, 24, 24);
+	color: white;
 }
 
 .price{
@@ -43,4 +44,7 @@ label{
 	display: block;
 	width: 300px;
 	float: left;
+}
+input[type=checkbox]{
+	width: auto;
 }

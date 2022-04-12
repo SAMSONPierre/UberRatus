@@ -64,7 +64,7 @@ $(document).ready (function () {
 		let entrees = document.getElementById("div_"+nom_plat);
 		let cesar = $("input[name="+nom_plat+"]");
 		let sauce = document.createElement("select");
-		sauce.id = "mySauce";
+		sauce.id = nom_plat+"_mySauce";
 		for(var i = 0;i< sauceListe.length;i++){
 			var option = document.createElement("option");
 			option.value = sauceListe[i];
@@ -105,7 +105,10 @@ $(document).ready (function () {
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
 	}
-	var sauceListe = [];
+	let sauceListe = ["Ketchup","Mayo","Huile d'olive","Vinaigrette"];
+	let ingredients = ["Thon","Anchois","Jambon","Pepperoni","Boeuf",
+		"Mozzarella","Bleu d'Auvergne","Emmental","Chèvre",
+	"Artichaut","Aubergine","Olive","Poivron"];
 	sauce("cesar",["Huile d'olive","Vinaigrette"]);
 	sauce("wings",["Ketchup","Mayo"]);
 	sauce("charcut",["Moutarde Forte","Moutarde Douce"]);
