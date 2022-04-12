@@ -37,7 +37,7 @@ $(document).ready (function () {
 		let entrees = document.getElementById("div_"+nom_plat);
 		let cesar = $("input[name="+nom_plat+"]");
 		let sauce = document.createElement("select");
-		sauce.id = "mySauce";
+		sauce.id = nom_plat+"_mySauce";
 		for(var i = 0;i< sauceListe.length;i++){
 			var option = document.createElement("option");
 			option.value = sauceListe[i];
@@ -47,7 +47,6 @@ $(document).ready (function () {
 		
 		cesar.change(function(){
 			if(cesar.prop("checked")){
-				
 				entrees.append(sauce);
 				update_price(true,nom_plat);
 			}
@@ -55,7 +54,24 @@ $(document).ready (function () {
 				sauce.remove();
 				update_price(false,nom_plat);
 			}
-		})
+		});
+	}
+	function quantite(nom_plat){
+		let plat = document.getElementById("div_"+nom_plat);
+		let commande=$("input[name"+nom_plat+"]");
+		let quantite= document.createElement("number");
+		quantite.id=nom_plat+"_quantite";
+		quantite.min=1;
+		quantite.max=10;
+		commande.change(function (){
+			if(commande.prop("checked")){
+				plat.append(quantite);
+			}
+			else{
+				plat.remove(quantite);
+			}
+		});
+
 	}
 
 	function update_price(flag,nom_plat){
@@ -69,10 +85,23 @@ $(document).ready (function () {
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
 	}
-	var sauceListe = ["Ketchup","Mayo","Huile d'olive","Vinaigrette"];
+	let sauceListe = ["Ketchup","Mayo","Huile d'olive","Vinaigrette"];
+	let ingredients = ["Thon","Anchois","Jambon","Pepperoni","Boeuf",
+		"Mozzarella","Bleu d'Auvergne","Emmental","Chèvre",
+	"Artichaut","Aubergine","Olive","Poivron"];
 	sauce("cesar",["Huile d'olive","Vinaigrette"]);
 	sauce("wings",["Ketchup","Mayo"]);
 	sauce("charcut",["Moutarde Forte","Moutarde Douce"]);
+	sauce("ingredient1",ingredients);
+	sauce("ingredient2",ingredients);
+	sauce("ingredient3",ingredients);
+	sauce("supplement1",ingredients);
+	sauce("supplement2",ingredients);
+	sauce("supplement3",ingredients);
+
+	quantite("cesar");
+	quantite("wings");
+	quantite("charcut");
 	
 	
     

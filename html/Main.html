@@ -25,21 +25,24 @@
                 <a class="nav-link" href="#">Menu <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Entrées</a>
+                <a class="nav-link" href="#entrées">Entrées</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Boisson</a>
+                <a class="nav-link" href="#pizzas">Pizza</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Pizza</a>
+                <a class="nav-link" href="#composition">Pizza</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#boissons">Boisson</a>
+            </li>
+
 
         </ul>
     </div>
 </nav>
-<div class="container">
-        <h1> Formulaire d'inscription </h1>
-
+<div class="container-fluid">
+        <h1> Las pizzas </h1>
         <form action="" method="get" class>
             <div class id="menus">
                 <h2>Menus</h2>
@@ -49,37 +52,69 @@
                         <option value="Mme">Mme.</option>
                 </select>
             </div><br>
-            <div class id="pizzas">
-                <h2>Pizzas</h2>
-                <label for="nom">nom</label>
-                <input type="text" name="nom" id="nom" required>
-                </div><br>
-            <div class id="boissons">
-                <h2>Boissons</h2>
-                <label for="prénom">prénom</label>
-                <input type="text" name="prénom" id="prénom" required>
-            </div><br>
-            <div class id="entrées">
+            <div class="col-sm-" id="entrées">
                 <h2>Entrées</h2>
                 <div id="div_cesar">
-                    <img id="preview" src="../images/cesar.jpg">
+                    <img class="preview" src="../images/cesar.jpg">
                     <label for="cesar">Salade Ceasar</label>
                     <label for="cesar" id="price_cesar">15$</label>
                     <input type="checkbox" name="cesar" id="cesar">
-                    
+
                 </div><br>
                 <div class id="div_wings">
-                    <img id="preview" src="../images/wings.jpeg">
+                    <img class="preview" src="../images/wings.jpeg">
                     <label for="wings">Wings</label>
                     <label for="wings" id="price_wings">5$</label>
                     <input type="checkbox" name="wings" id="wings">
                 </div><br>
                 <div class id="div_charcut">
-                    <img id="preview" src="../images/charcut.jpeg">
+                    <img class="preview" src="../images/charcut.jpeg">
                     <label for="charcut">Charcut</label>
                     <label for="charcut" id="price_charcut">11$</label>
                     <input type="checkbox" name="charcut" id="charcut">
                 </div><br>
+            </div><br>
+            <div class id="pizzas">
+                <h2>Pizzas</h2>
+                <label for="nom">nom</label>
+                <input type="text" name="nom" id="nom" required>
+                </div><br>
+            <div id="composition">
+                <h2>Compostition Pizza</h2>
+                    <div id="ingredient">
+                        <div id="div_ingredient1">
+                            <label for="ingredient1">Ingrédient 1</label>
+                            <input type="checkbox" name="ingredient1" id="ingredient1">
+                        </div></br>
+                        <div id="div_ingredient2">
+                            <label  for="ingredient2">Ingrédient 2</label>
+                            <input type="checkbox" name="ingredient2" id="ingredient2">
+                        </div></br>
+                        <div id="div_ingredient3">
+                            <label for="ingredient3">Ingrédient 3</label>
+                            <input type="checkbox" name="ingredient3" id="ingredient3">
+                        </div><br>
+                    </div>
+                    <div id="supplements">
+                        <div id="div_supplement1">
+                            <label for="supplement1">Supplément 1</label>
+                            <input type="checkbox" name="supplement1" id="supplement1">
+                        </div><br>
+                        <div id="div_supplement2">
+                            <label for="supplement2">Supplément 2</label>
+                            <input type="checkbox" name="supplement2" id="supplement2">
+                        </div><br>
+                        <div id="div_supplement3">
+                            <label for="supplement3">Supplément 3</label>
+                            <input type="checkbox" name="supplement3" id="supplement3">
+                        </div><br>
+                    </div>
+            <br>
+            </div>
+            <div class id="boissons">
+                <h2>Boissons</h2>
+                <label for="prénom">prénom</label>
+                <input type="text" name="prénom" id="prénom" required>
             </div><br>
             <div id="submit">
                 <input type="submit" value="Confirmer la commande">
