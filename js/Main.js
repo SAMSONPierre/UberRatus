@@ -65,7 +65,8 @@ $(document).ready (function () {
 		quantite.max=10;
 		commande.change(function (){
 			if(commande.prop("checked")){
-				plat.append(quantite);
+				plat.appendChild(quantite);
+				console.log("oui");
 			}
 			else{
 				plat.remove(quantite);

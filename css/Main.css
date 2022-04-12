@@ -38,3 +38,6 @@ label{
 	width: 300px;
 	float: left;
 }
+input[type=checkbox]{
+	width: auto;
+}
