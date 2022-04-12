@@ -105,7 +105,7 @@ $(document).ready (function () {
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
 	}
-	let sauceListe = ["Ketchup","Mayo","Huile d'olive","Vinaigrette"];
+
 	let ingredients = ["Thon","Anchois","Jambon","Pepperoni","Boeuf",
 		"Mozzarella","Bleu d'Auvergne","Emmental","Chèvre",
 	"Artichaut","Aubergine","Olive","Poivron"];
@@ -115,6 +115,13 @@ $(document).ready (function () {
 	sauce("margherita",["MEDIUM","LARGE","EXTRA LARGE"]);
 	sauce("calzone",["MEDIUM","LARGE","EXTRA LARGE"]);
 	sauce("napolitaine",["MEDIUM","LARGE","EXTRA LARGE"]);
+	sauce("ingredient1",ingredients);
+	sauce("ingredient2",ingredients);
+	sauce("ingredient3",ingredients);
+	sauce("supplement1",ingredients);
+	sauce("supplement2",ingredients);
+	sauce("supplement3",ingredients);
+
 	boisson("coca");
 	boisson("fanta");
 	boisson("oasis");
