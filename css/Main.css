@@ -17,9 +17,16 @@ h2 {
 }
 
 .container{
-	background-color: rgb(46, 24, 24);
+	background-color: rgb(171, 171, 171);
 }
 
+.price{
+	font-weight: bold;
+}
+
+.quantité{
+	max-width: 50px;
+}
 #submit{
 	text-align: center;
 }

@@ -22,16 +22,16 @@
     <div class="collapse navbar-collapse" id="myNavbar">
         <ul id="carte" class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Menu <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#menus">Menu <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Entrées</a>
+                <a class="nav-link" href="#entrées">Entrées</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Boisson</a>
+                <a class="nav-link" href="#boissons">Boisson</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Pizza</a>
+                <a class="nav-link" href="#pizzas">Pizza</a>
             </li>
 
         </ul>
@@ -49,36 +49,76 @@
                         <option value="Mme">Mme.</option>
                 </select>
             </div><br>
-            <div class id="pizzas">
-                <h2>Pizzas</h2>
-                <label for="nom">nom</label>
-                <input type="text" name="nom" id="nom" required>
-                </div><br>
-            <div class id="boissons">
-                <h2>Boissons</h2>
-                <label for="prénom">prénom</label>
-                <input type="text" name="prénom" id="prénom" required>
-            </div><br>
             <div class id="entrées">
                 <h2>Entrées</h2>
                 <div id="div_cesar">
                     <img id="preview" src="../images/cesar.jpg">
                     <label for="cesar">Salade Ceasar</label>
-                    <label for="cesar" id="price_cesar">15$</label>
+                    <label for="cesar" class="price" id="price_cesar">15$</label>
                     <input type="checkbox" name="cesar" id="cesar">
                     
                 </div><br>
                 <div class id="div_wings">
                     <img id="preview" src="../images/wings.jpeg">
                     <label for="wings">Wings</label>
-                    <label for="wings" id="price_wings">5$</label>
+                    <label for="wings" class="price" id="price_wings">5$</label>
                     <input type="checkbox" name="wings" id="wings">
                 </div><br>
                 <div class id="div_charcut">
                     <img id="preview" src="../images/charcut.jpeg">
                     <label for="charcut">Charcut</label>
-                    <label for="charcut" id="price_charcut">11$</label>
+                    <label for="charcut" class="price" id="price_charcut">11$</label>
                     <input type="checkbox" name="charcut" id="charcut">
+                </div><br>
+            </div><br>
+            <div class id="pizzas">
+                <h2>Pizzas</h2>
+                <div id="div_margherita">
+                    <img id="preview" src="../images/margherita.png">
+                    <label for="margherita">Margherita</label>
+                    <label for="margherita" class="price" id="price_margherita">10$</label>
+                    <input type="checkbox" name="margherita" id="margherita">
+                    
+                </div><br>
+                <div id="div_napolitaine">
+                    <img id="preview" src="../images/napolitaine.png">
+                    <label for="napolitaine">Margherita</label>
+                    <label for="napolitaine" class="price" id="price_napolitaine">10$</label>
+                    <input type="checkbox" name="napolitaine" id="napolitaine">
+                    
+                </div><br>
+                <div id="div_calzone">
+                    <img id="preview" src="../images/calzone.png">
+                    <label for="calzone">Calzone</label>
+                    <label for="calzone" class="price" id="price_calzone">10$</label>
+                    <input type="checkbox" name="calzone" id="calzone">
+                </div><br>
+            
+            </div><br>
+            <div class id="boissons">
+                <h2>Boissons</h2>
+                <div id="div_coca">
+                    <img id="preview" src="../images/coca.png">
+                    <label for="coca">Coca-cola</label>
+                    <label for="coca" class="price" id="price_coca">2$</label>
+                    <input type="checkbox" name="coca" id="coca">
+                    
+                </div><br>
+
+                <div id="div_fanta">
+                    <img id="preview" src="../images/fanta.png">
+                    <label for="fanta">Fanta</label>
+                    <label for="fanta" class="price" id="price_fanta">2$</label>
+                    <input type="checkbox" name="fanta" id="fanta">
+                    
+                </div><br>
+
+                <div id="div_oasis">
+                    <img id="preview" src="../images/oasis.png">
+                    <label for="oasis">Oasis Tropical</label>
+                    <label for="oasis" class="price" id="price_oasis">2$</label>
+                    <input type="checkbox" name="oasis" id="oasis">
+                    
                 </div><br>
             </div><br>
             <div id="submit">

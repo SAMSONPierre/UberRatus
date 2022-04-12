@@ -33,6 +33,33 @@ $(document).ready (function () {
 			$("input[name=mdp2]").attr('type','password');
 		}
 	});
+
+	function myFunction(){
+		alert("test");
+	}
+	function boisson(nom){
+		let boisson = document.getElementById("div_"+nom);
+		let b = $("input[name="+nom+"]");
+		let quantité = document.createElement("input");
+		quantité.setAttribute("type","number");
+		quantité.className = "quantité"
+		quantité.value = 1;
+		quantité.min = 1;
+		quantité.onchange = "myFunction()";
+
+		b.change(function(){
+			if(b.prop("checked")){
+				boisson.append(quantité);
+				update_price(true,nom,1);
+			}
+			else{
+				quantité.remove();
+				update_price(false,nom,1);
+			}
+		});
+
+		
+	}
 	function sauce(nom_plat,sauceListe){
 		let entrees = document.getElementById("div_"+nom_plat);
 		let cesar = $("input[name="+nom_plat+"]");
@@ -44,27 +71,36 @@ $(document).ready (function () {
 			option.text = sauceListe[i];
 			sauce.appendChild(option);
 		}
+		let quantité = document.createElement("input");
+		quantité.setAttribute("type","number");
+		quantité.className = "quantité"
+		quantité.value = 1;
+		quantité.min = 1;
+
 		
 		cesar.change(function(){
 			if(cesar.prop("checked")){
 				
 				entrees.append(sauce);
-				update_price(true,nom_plat);
+				entrees.append(quantité);
+				update_price(true,nom_plat,1);
 			}
 			else{
 				sauce.remove();
-				update_price(false,nom_plat);
+				quantité.remove();
+				update_price(false,nom_plat,1);
 			}
 		})
 	}
 
-	function update_price(flag,nom_plat){
+
+	function update_price(flag,nom_plat,quantité){
 		let price = document.getElementById("price_"+nom_plat);
 		if(flag){
-			total += parseInt(price.textContent);
+			total += quantité * parseInt(price.textContent);
 		}
 		else{
-			total -= parseInt(price.textContent);
+			total -= quantité * parseInt(price.textContent);
 		}
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
@@ -73,6 +109,14 @@ $(document).ready (function () {
 	sauce("cesar",["Huile d'olive","Vinaigrette"]);
 	sauce("wings",["Ketchup","Mayo"]);
 	sauce("charcut",["Moutarde Forte","Moutarde Douce"]);
+	sauce("margherita",["MEDIUM","LARGE","EXTRA LARGE"]);
+	sauce("calzone",["MEDIUM","LARGE","EXTRA LARGE"]);
+	sauce("napolitaine",["MEDIUM","LARGE","EXTRA LARGE"]);
+	boisson("coca");
+	boisson("fanta");
+	boisson("oasis");
+
+
 	
 	
     
