@@ -40,54 +40,54 @@ $(document).ready (function () {
 	function boisson(nom){
 		let boisson = document.getElementById("div_"+nom);
 		let b = $("input[name="+nom+"]");
-		let quantité = document.createElement("input");
-		quantité.setAttribute("type","number");
-		quantité.className = "quantité"
-		quantité.value = 1;
-		quantité.min = 1;
-		quantité.onchange = "myFunction()";
 
 		b.change(function(){
 			if(b.prop("checked")){
-				boisson.append(quantité);
+				document.getElementById("quant_"+nom).hidden = false;
 				update_price(true,nom,1);
 			}
 			else{
-				quantité.remove();
+				document.getElementById("quant_"+nom).hidden = true;
 				update_price(false,nom,1);
 			}
 		});
 
 		
 	}
-	function sauce(nom_plat,sauceListe){
+	function sauce(nom_plat){
 		let entrees = document.getElementById("div_"+nom_plat);
 		let cesar = $("input[name="+nom_plat+"]");
-		let sauce = document.createElement("select");
-		sauce.id = "mySauce";
-		for(var i = 0;i< sauceListe.length;i++){
-			var option = document.createElement("option");
-			option.value = sauceListe[i];
-			option.text = sauceListe[i];
-			sauce.appendChild(option);
-		}
-		let quantité = document.createElement("input");
-		quantité.setAttribute("type","number");
-		quantité.className = "quantité"
-		quantité.value = 1;
-		quantité.min = 1;
 
 		
 		cesar.change(function(){
 			if(cesar.prop("checked")){
 				
-				entrees.append(sauce);
-				entrees.append(quantité);
+				document.getElementById("sauce_"+nom_plat).hidden = false;
+				document.getElementById("quant_"+nom_plat).hidden = false;
 				update_price(true,nom_plat,1);
 			}
 			else{
-				sauce.remove();
-				quantité.remove();
+				document.getElementById("sauce_"+nom_plat).hidden = true;
+				document.getElementById("quant_"+nom_plat).hidden = true;
+				update_price(false,nom_plat,1);
+			}
+		})
+	}
+	function pizzas(nom_plat){
+		let entrees = document.getElementById("div_"+nom_plat);
+		let cesar = $("input[name="+nom_plat+"]");
+
+		
+		cesar.change(function(){
+			if(cesar.prop("checked")){
+				
+				document.getElementById("size_"+nom_plat).hidden = false;
+				document.getElementById("quant_"+nom_plat).hidden = false;
+				update_price(true,nom_plat,1);
+			}
+			else{
+				document.getElementById("size_"+nom_plat).hidden = true;
+				document.getElementById("quant_"+nom_plat).hidden = true;
 				update_price(false,nom_plat,1);
 			}
 		})
@@ -105,13 +105,12 @@ $(document).ready (function () {
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
 	}
-	var sauceListe = ["Ketchup","Mayo","Huile d'olive","Vinaigrette"];
-	sauce("cesar",["Huile d'olive","Vinaigrette"]);
-	sauce("wings",["Ketchup","Mayo"]);
-	sauce("charcut",["Moutarde Forte","Moutarde Douce"]);
-	sauce("margherita",["MEDIUM","LARGE","EXTRA LARGE"]);
-	sauce("calzone",["MEDIUM","LARGE","EXTRA LARGE"]);
-	sauce("napolitaine",["MEDIUM","LARGE","EXTRA LARGE"]);
+	sauce("cesar");
+	sauce("wings");
+	sauce("charcut");
+	pizzas("margherita");
+	pizzas("calzone");
+	pizzas("napolitaine");
 	boisson("coca");
 	boisson("fanta");
 	boisson("oasis");

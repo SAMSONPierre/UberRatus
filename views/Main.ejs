@@ -38,7 +38,7 @@
     </div>
 </nav>
 <div class="container">
-        <h1> Formulaire d'inscription </h1>
+        <h1> Uber Ratus </h1>
 
         <form action="" method="get" class>
             <div class id="menus">
@@ -52,7 +52,12 @@
                         <label for="<%=entree.nom%>"><%= entree.nom%></label>
                         <label for="<%=entree.nom %>" class="price" id="price_<%=entree.nom%>"><%=entree.prix%>$</label>
                         <input type="checkbox" name="<%=entree.nom%>" id="<%=entree.nom%>">
-                        
+                        <select id="sauce_<%=entree.nom%>" hidden>
+                            <option value="<%=entree.sauce1%>"><%=entree.sauce1%></option>
+                            <option value="<%=entree.sauce2%>"><%=entree.sauce2%></option>
+                        </select>
+                        <input type="number" value="1" min="1" id="quant_<%=entree.nom%>" class="quantité" hidden>
+
                     </div><br>
                 <% }); %>
             <div class id="pizzas">
@@ -63,6 +68,12 @@
                         <label for="<%=pizza.nom%>"><%= pizza.nom%></label>
                         <label for="<%=pizza.nom %>" class="price" id="price_<%=pizza.nom%>"><%=pizza.prix%>$</label>
                         <input type="checkbox" name="<%=pizza.nom%>" id="<%=pizza.nom%>">
+                        <select id="size_<%=pizza.nom%>" hidden>
+                            <option value="LARGE">LARGE</option>
+                            <option value="MEDIUM">MEDIUM</option>
+                            <option value="SMALL">SMALL</option>
+                        </select>
+                        <input type="number" value="1" min="1" id="quant_<%=pizza.nom%>" class="quantité" hidden>
                         
                     </div><br>
                 <% }); %>
@@ -74,9 +85,10 @@
                     <div id="div_<%=boisson.nom %>">
                         <img id="preview" src="../images/<%=boisson.nom%>.png">
                         <label for="<%=boisson.nom%>"><%= boisson.nom%></label>
+                        <label for="<%=boisson.nom%>"><%=boisson.volume%>cL</label>
                         <label for="<%=boisson.nom %>" class="price" id="price_<%=boisson.nom%>"><%=boisson.prix%>$</label>
                         <input type="checkbox" name="<%=boisson.nom%>" id="<%=boisson.nom%>">
-                        
+                        <input type="number" value="1" min="1" id="quant_<%=boisson.nom%>" class="quantité" hidden>
                     </div><br>
                 <% }); %>
             </div><br>
