@@ -1,42 +1,27 @@
 $(document).ready (function () {
-	let ec = $("select[name=etatcivil]");
-	let n = $("input[name=nom]");
-	let p = $("input[name=prénom]");
-	let nC = $("input[name=complet]");
-	let niveau = $("input[name=niveau]");
-	let lvl = $("output[name=lvl]");
-	let check = $("input[name=affiche]");
 	let total = 0;
-	ec.change(function(){
-		nC.val(ec.val() + " " + p.val() + " " + n.val());
+
+
+	document.querySelectorAll('.pizza').forEach(function(elem) {
+		var id = elem.id;
+		id = id.replace("div_","");
+		pizzas(id);
 	});
 
-	n.keyup(function(){
-		nC.val(ec.val() + " " + p.val() + " " + n.val());
+	document.querySelectorAll('.boisson').forEach(function(elem) {
+		var id = elem.id;
+		id = id.replace("div_","");
+		boisson(id);
 	});
 
-	p.keyup(function(){
-		nC.val(ec.val() + " " + p.val() + " " + n.val());
+	document.querySelectorAll('.entree').forEach(function(elem) {
+		var id = elem.id;
+		id = id.replace("div_","");
+		entrees(id);
 	});
+	
+	
 
-	niveau.mousemove(function(){
-		lvl.val(niveau.val());
-	});
-
-	check.change(function(){
-		if(check.prop("checked")){
-			$("input[name=mdp]").attr('type','text');
-			$("input[name=mdp2]").attr('type','text');
-		}
-		else{
-			$("input[name=mdp]").attr('type','password');
-			$("input[name=mdp2]").attr('type','password');
-		}
-	});
-
-	function myFunction(){
-		alert("test");
-	}
 	function boisson(nom){
 		let boisson = document.getElementById("div_"+nom);
 		let b = $("input[name="+nom+"]");
@@ -54,7 +39,7 @@ $(document).ready (function () {
 
 		
 	}
-	function sauce(nom_plat){
+	function entrees(nom_plat){
 		let entrees = document.getElementById("div_"+nom_plat);
 		let cesar = $("input[name="+nom_plat+"]");
 
@@ -105,19 +90,4 @@ $(document).ready (function () {
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
 	}
-	sauce("cesar");
-	sauce("wings");
-	sauce("charcut");
-	pizzas("margherita");
-	pizzas("calzone");
-	pizzas("napolitaine");
-	boisson("coca");
-	boisson("fanta");
-	boisson("oasis");
-
-
-	
-	
-    
-
 });

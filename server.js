@@ -1,6 +1,8 @@
 const express = require('express');
 const serv= express();
+var bodyParser = require('body-parser')
 const pg = require('pg');
+
 const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
@@ -44,8 +46,16 @@ pool.query("SELECT * FROM boissons",(err,res)=>{
 pool.end;
 
 serv.use(express.static('.'));
-serv.get('/',function (req,res,next) {
+serv.use(bodyParser.json());
+serv.use(bodyParser.urlencoded());
+
+serv.get('/',function (req,res) {
     res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas});
+});
+
+serv.post('/',function (req,res) {
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas});
+    console.log(req.body);
 });
  
 serv.listen(8080);

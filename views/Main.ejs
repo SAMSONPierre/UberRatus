@@ -40,14 +40,14 @@
 <div class="container">
         <h1> Uber Ratus </h1>
 
-        <form action="" method="get" class>
+        <form action="" method="POST" class>
             <div class id="menus">
                 <h2>Menus</h2>
             </div><br>
             <div class id="entrées">
                 <h2>Entrées</h2>
                 <% entrees.forEach(function(entree) { %>
-                    <div id="div_<%=entree.nom %>">
+                    <div id="div_<%=entree.nom %>" class="entree">
                         <img id="preview" src="../images/<%=entree.nom%>.jpg">
                         <label for="<%=entree.nom%>"><%= entree.nom%></label>
                         <label for="<%=entree.nom %>" class="price" id="price_<%=entree.nom%>"><%=entree.prix%>$</label>
@@ -63,7 +63,7 @@
             <div class id="pizzas">
                 <h2>Pizzas</h2>
                 <% pizzas.forEach(function(pizza) { %>
-                    <div id="div_<%=pizza.nom %>">
+                    <div id="div_<%=pizza.nom %>" class="pizza">
                         <img id="preview" src="../images/<%=pizza.nom%>.png">
                         <label for="<%=pizza.nom%>"><%= pizza.nom%></label>
                         <label for="<%=pizza.nom %>" class="price" id="price_<%=pizza.nom%>"><%=pizza.prix%>$</label>
@@ -82,7 +82,7 @@
             <div class id="boissons">
                 <h2>Boissons</h2>
                 <% boissons.forEach(function(boisson) { %>
-                    <div id="div_<%=boisson.nom %>">
+                    <div id="div_<%=boisson.nom %>" class="boisson">
                         <img id="preview" src="../images/<%=boisson.nom%>.png">
                         <label for="<%=boisson.nom%>"><%= boisson.nom%></label>
                         <label for="<%=boisson.nom%>"><%=boisson.volume%>cL</label>
