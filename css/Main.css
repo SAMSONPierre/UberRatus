@@ -10,14 +10,15 @@ h2 {
 	font-weight: bold;
 }
 
-#preview{
+.preview{
 	max-width: 100px;
 	max-height: 100px;
 	clear:both;
 }
 
-.container{
-	background-color: rgb(171, 171, 171);
+.container-fluid{
+	background-color: rgb(46, 24, 24);
+	color: white;
 }
 
 .price{
@@ -44,4 +45,6 @@ label{
 	width: 300px;
 	float: left;
 }
-
+input[type=checkbox]{
+	width: auto;
+}
