@@ -1,66 +1,64 @@
 $(document).ready (function () {
-	let ec = $("select[name=etatcivil]");
-	let n = $("input[name=nom]");
-	let p = $("input[name=prénom]");
-	let nC = $("input[name=complet]");
-	let niveau = $("input[name=niveau]");
-	let lvl = $("output[name=lvl]");
-	let check = $("input[name=affiche]");
 	let total = 0;
-	ec.change(function(){
-		nC.val(ec.val() + " " + p.val() + " " + n.val());
+
+
+	document.querySelectorAll('.pizza').forEach(function(elem) {
+		var id = elem.id;
+		id = id.replace("div_","");
+		pizzas(id);
 	});
 
-	n.keyup(function(){
-		nC.val(ec.val() + " " + p.val() + " " + n.val());
+	document.querySelectorAll('.boisson').forEach(function(elem) {
+		var id = elem.id;
+		id = id.replace("div_","");
+		boisson(id);
 	});
 
-	p.keyup(function(){
-		nC.val(ec.val() + " " + p.val() + " " + n.val());
+	document.querySelectorAll('.entree').forEach(function(elem) {
+		var id = elem.id;
+		id = id.replace("div_","");
+		entrees(id);
 	});
+	
+	
 
-	niveau.mousemove(function(){
-		lvl.val(niveau.val());
-	});
-
-	check.change(function(){
-		if(check.prop("checked")){
-			$("input[name=mdp]").attr('type','text');
-			$("input[name=mdp2]").attr('type','text');
-		}
-		else{
-			$("input[name=mdp]").attr('type','password');
-			$("input[name=mdp2]").attr('type','password');
-		}
-	});
-
-	function myFunction(){
-		alert("test");
-	}
 	function boisson(nom){
 		let boisson = document.getElementById("div_"+nom);
 		let b = $("input[name="+nom+"]");
-		let quantité = document.createElement("input");
-		quantité.setAttribute("type","number");
-		quantité.className = "quantité"
-		quantité.value = 1;
-		quantité.min = 1;
-		quantité.onchange = "myFunction()";
 
 		b.change(function(){
 			if(b.prop("checked")){
-				boisson.append(quantité);
+				document.getElementById("quant_"+nom).hidden = false;
 				update_price(true,nom,1);
 			}
 			else{
-				quantité.remove();
+				document.getElementById("quant_"+nom).hidden = true;
 				update_price(false,nom,1);
 			}
 		});
 
 		
 	}
-	function sauce(nom_plat,sauceListe){
+	function entrees(nom_plat){
+		let entrees = document.getElementById("div_"+nom_plat);
+		let cesar = $("input[name="+nom_plat+"]");
+
+		
+		cesar.change(function(){
+			if(cesar.prop("checked")){
+				
+				document.getElementById("sauce_"+nom_plat).hidden = false;
+				document.getElementById("quant_"+nom_plat).hidden = false;
+				update_price(true,nom_plat,1);
+			}
+			else{
+				document.getElementById("sauce_"+nom_plat).hidden = true;
+				document.getElementById("quant_"+nom_plat).hidden = true;
+				update_price(false,nom_plat,1);
+			}
+		})
+	}
+	function pizzas(nom_plat){
 		let entrees = document.getElementById("div_"+nom_plat);
 		let cesar = $("input[name="+nom_plat+"]");
 		let sauce = document.createElement("select");
@@ -81,13 +79,13 @@ $(document).ready (function () {
 		cesar.change(function(){
 			if(cesar.prop("checked")){
 				
-				entrees.append(sauce);
-				entrees.append(quantité);
+				document.getElementById("size_"+nom_plat).hidden = false;
+				document.getElementById("quant_"+nom_plat).hidden = false;
 				update_price(true,nom_plat,1);
 			}
 			else{
-				sauce.remove();
-				quantité.remove();
+				document.getElementById("size_"+nom_plat).hidden = true;
+				document.getElementById("quant_"+nom_plat).hidden = true;
 				update_price(false,nom_plat,1);
 			}
 		})

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil</title>
+    <link rel="stylesheet" href="../css/Main.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/Main.js"></script>
+</head>
+<body id="body"  data-spy="scroll" data-target=".navbar" data-offset="60">
+<nav id="thenavbar" class="navbar sticky-top navbar-light bg-light navbar-expand-sm">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" aria-controls="mynavBar" aria-expanded="false" aria-label="Toggle navigation">
+            <!-- affiche trois barres à la place des liens quand l'écran est
+            petit -->
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="#"><span class="glyphicon glyphicon-globe"></span></a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+        <ul id="carte" class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#menus">Menu <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#entrées">Entrées</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#boissons">Boisson</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#pizzas">Pizza</a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+<div class="container">
+        <h1> Uber Ratus </h1>
+
+        <form action="" method="POST" class>
+            <div class id="menus">
+                <h2>Menus</h2>
+            </div><br>
+            <div class id="entrées">
+                <h2>Entrées</h2>
+                <% entrees.forEach(function(entree) { %>
+                    <div id="div_<%=entree.nom %>" class="entree">
+                        <img id="preview" src="../images/<%=entree.nom%>.jpg">
+                        <label for="<%=entree.nom%>"><%= entree.nom%></label>
+                        <label for="<%=entree.nom %>" class="price" id="price_<%=entree.nom%>"><%=entree.prix%>$</label>
+                        <input type="checkbox" name="<%=entree.nom%>" id="<%=entree.nom%>">
+                        <select id="sauce_<%=entree.nom%>" hidden>
+                            <option value="<%=entree.sauce1%>"><%=entree.sauce1%></option>
+                            <option value="<%=entree.sauce2%>"><%=entree.sauce2%></option>
+                        </select>
+                        <input type="number" value="1" min="1" id="quant_<%=entree.nom%>" class="quantité" hidden>
+
+                    </div><br>
+                <% }); %>
+            <div class id="pizzas">
+                <h2>Pizzas</h2>
+                <% pizzas.forEach(function(pizza) { %>
+                    <div id="div_<%=pizza.nom %>" class="pizza">
+                        <img id="preview" src="../images/<%=pizza.nom%>.png">
+                        <label for="<%=pizza.nom%>"><%= pizza.nom%></label>
+                        <label for="<%=pizza.nom %>" class="price" id="price_<%=pizza.nom%>"><%=pizza.prix%>$</label>
+                        <input type="checkbox" name="<%=pizza.nom%>" id="<%=pizza.nom%>">
+                        <select id="size_<%=pizza.nom%>" hidden>
+                            <option value="LARGE">LARGE</option>
+                            <option value="MEDIUM">MEDIUM</option>
+                            <option value="SMALL">SMALL</option>
+                        </select>
+                        <input type="number" value="1" min="1" id="quant_<%=pizza.nom%>" class="quantité" hidden>
+                        
+                    </div><br>
+                <% }); %>
+            
+            </div><br>
+            <div class id="boissons">
+                <h2>Boissons</h2>
+                <% boissons.forEach(function(boisson) { %>
+                    <div id="div_<%=boisson.nom %>" class="boisson">
+                        <img id="preview" src="../images/<%=boisson.nom%>.png">
+                        <label for="<%=boisson.nom%>"><%= boisson.nom%></label>
+                        <label for="<%=boisson.nom%>"><%=boisson.volume%>cL</label>
+                        <label for="<%=boisson.nom %>" class="price" id="price_<%=boisson.nom%>"><%=boisson.prix%>$</label>
+                        <input type="checkbox" name="<%=boisson.nom%>" id="<%=boisson.nom%>">
+                        <input type="number" value="1" min="1" id="quant_<%=boisson.nom%>" class="quantité" hidden>
+                    </div><br>
+                <% }); %>
+            </div><br>
+            <div id="submit">
+                <input type="submit" value="Confirmer la commande">
+            </div>
+            <div id="total">
+                <p id="prix_total">Total : 0 $</p>
+            </div>
+        </form>
+    </div>
+    
+</div>
+
+</body>
+</html>
