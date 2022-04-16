@@ -1,27 +1,27 @@
 $(document).ready (function () {
 	let total = 0;
-
+	const tool = require('./Tool');
 
 	document.querySelectorAll('.pizza').forEach(function(elem) {
-		var id = elem.id;
+		let id = elem.id;
 		id = id.replace("div_","");
-		pizzas(id);
+		tool.pizzas(id);
 	});
 
 	document.querySelectorAll('.boisson').forEach(function(elem) {
-		var id = elem.id;
+		let id = elem.id;
 		id = id.replace("div_","");
-		boisson(id);
+		tool.boisson(id);
 	});
 
 	document.querySelectorAll('.entree').forEach(function(elem) {
-		var id = elem.id;
+		let id = elem.id;
 		id = id.replace("div_","");
-		entrees(id);
+		tool.entrees(id);
 	});
 	
 	
-
+/*
 	function boisson(nom){
 		let boisson = document.getElementById("div_"+nom);
 		let b = $("input[name="+nom+"]");
@@ -75,10 +75,10 @@ $(document).ready (function () {
 		quantité.value = 1;
 		quantité.min = 1;
 
-		
+
 		cesar.change(function(){
 			if(cesar.prop("checked")){
-				
+
 				document.getElementById("size_"+nom_plat).hidden = false;
 				document.getElementById("quant_"+nom_plat).hidden = false;
 				update_price(true,nom_plat,1);
@@ -115,13 +115,13 @@ $(document).ready (function () {
 	}
 
 
-	function update_price(flag,nom_plat,quantité){
+	function update_price(flag,nom_plat,quantity){
 		let price = document.getElementById("price_"+nom_plat);
 		if(flag){
-			total += quantité * parseInt(price.textContent);
+			total += quantity * parseInt(price.textContent);
 		}
 		else{
-			total -= quantité * parseInt(price.textContent);
+			total -= quantity * parseInt(price.textContent);
 		}
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
@@ -130,12 +130,6 @@ $(document).ready (function () {
 	let ingredients = ["Thon","Anchois","Jambon","Pepperoni","Boeuf",
 		"Mozzarella","Bleu d'Auvergne","Emmental","Chèvre",
 	"Artichaut","Aubergine","Olive","Poivron"];
-	sauce("cesar",["Huile d'olive","Vinaigrette"]);
-	sauce("wings",["Ketchup","Mayo"]);
-	sauce("charcut",["Moutarde Forte","Moutarde Douce"]);
-	sauce("margherita",["MEDIUM","LARGE","EXTRA LARGE"]);
-	sauce("calzone",["MEDIUM","LARGE","EXTRA LARGE"]);
-	sauce("napolitaine",["MEDIUM","LARGE","EXTRA LARGE"]);
 	composition("ingredient1",ingredients);
 	composition("ingredient2",ingredients);
 	composition("ingredient3",ingredients);
@@ -149,7 +143,7 @@ $(document).ready (function () {
 
 
 	
-	
+	*/
     
 
 });
