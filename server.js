@@ -14,6 +14,7 @@ port: 5432
 var entrees;
 var pizzas;
 var boissons;
+var ingredients;
 
 pool.connect();
 pool.query("SELECT * FROM entrees",(err,res)=>{
@@ -43,6 +44,16 @@ pool.query("SELECT * FROM boissons",(err,res)=>{
     }
     
 })
+
+pool.query("SELECT * FROM ingredients",(err,res)=>{
+    if(!err){
+        ingredients = res.rows;
+    }
+    else{
+        console.log(console.error);
+    }
+    
+})
 pool.end;
 
 serv.use(express.static('.'));
@@ -50,11 +61,11 @@ serv.use(bodyParser.json());
 serv.use(bodyParser.urlencoded());
 
 serv.get('/',function (req,res) {
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
 });
 
 serv.post('/',function (req,res) {
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
     console.log(req.body);
 });
  

@@ -1,27 +1,24 @@
 $(document).ready (function () {
 	let total = 0;
-	const tool = require('./Tool');
-
 	document.querySelectorAll('.pizza').forEach(function(elem) {
 		let id = elem.id;
 		id = id.replace("div_","");
-		tool.pizzas(id);
+
 	});
 
 	document.querySelectorAll('.boisson').forEach(function(elem) {
 		let id = elem.id;
 		id = id.replace("div_","");
-		tool.boisson(id);
+		boisson(id);
 	});
 
 	document.querySelectorAll('.entree').forEach(function(elem) {
 		let id = elem.id;
 		id = id.replace("div_","");
-		tool.entrees(id);
+		entrees(id);
 	});
 	
 	
-/*
 	function boisson(nom){
 		let boisson = document.getElementById("div_"+nom);
 		let b = $("input[name="+nom+"]");
@@ -39,6 +36,7 @@ $(document).ready (function () {
 
 		
 	}
+	
 	function entrees(nom_plat){
 		let entrees = document.getElementById("div_"+nom_plat);
 		let cesar = $("input[name="+nom_plat+"]");
@@ -61,21 +59,6 @@ $(document).ready (function () {
 	function pizzas(nom_plat){
 		let entrees = document.getElementById("div_"+nom_plat);
 		let cesar = $("input[name="+nom_plat+"]");
-		let sauce = document.createElement("select");
-		sauce.id = nom_plat+"_mySauce";
-		for(var i = 0;i< sauceListe.length;i++){
-			var option = document.createElement("option");
-			option.value = sauceListe[i];
-			option.text = sauceListe[i];
-			sauce.appendChild(option);
-		}
-		let quantité = document.createElement("input");
-		quantité.setAttribute("type","number");
-		quantité.className = "quantité"
-		quantité.value = 1;
-		quantité.min = 1;
-
-
 		cesar.change(function(){
 			if(cesar.prop("checked")){
 
@@ -89,6 +72,20 @@ $(document).ready (function () {
 				update_price(false,nom_plat,1);
 			}
 		})
+	}
+
+	function pizzaComp(){
+		let pizzaComp = document.getElementById("div_pizzaComp");
+		let button = $("input[name=pizzaComp]");
+		button.change(function(){
+			if(button.prop("checked")){
+				document.getElementById("ingr_pizzaComp").hidden = true;
+			}
+			else{
+				document.getElementById("ingr_pizzaComp").hidden = false;
+
+			}
+		});
 	}
 	function composition(nom_plat,sauceListe){
 		let plat = document.getElementById("div_"+nom_plat);
@@ -126,24 +123,4 @@ $(document).ready (function () {
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
 	}
-
-	let ingredients = ["Thon","Anchois","Jambon","Pepperoni","Boeuf",
-		"Mozzarella","Bleu d'Auvergne","Emmental","Chèvre",
-	"Artichaut","Aubergine","Olive","Poivron"];
-	composition("ingredient1",ingredients);
-	composition("ingredient2",ingredients);
-	composition("ingredient3",ingredients);
-	composition("supplement1",ingredients);
-	composition("supplement2",ingredients);
-	composition("supplement3",ingredients);
-
-	boisson("coca");
-	boisson("fanta");
-	boisson("oasis");
-
-
-	
-	*/
-    
-
 });

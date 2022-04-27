@@ -42,20 +42,52 @@
         <form action="" method="POST" class>
             <div class id="menus">
                 <h2>Menus</h2>
+                    <div id="div_extra" class ="menu row">
+                        <label class="col-sm-2">Extra Menu</label>
+                        <label class="price col-sm-2">30$</label>
+                        <img id="preview" src="../images/fanta.png" class="col-sm-3">               
+                        <input type="checkbox" class="col-sm-1">
+                        <br>
+                        <select id="extra_entree">
+                            <%entrees.forEach(function(entree) {%>
+                                <option value="<%=entree.nom%>"><%=entree.nom%></option>
+                            <%}); %>
+                        </select>
+                        <select id="extra_pizza">
+                            <%pizzas.forEach(function(pizza) {%>
+                                <option value="<%=pizza.nom%>"><%=pizza.nom%></option>
+                            <%}); %>
+                        </select>
+                        <select id="extra_boisson1">
+                            <%boissons.forEach(function(boisson) {%>
+                                <%if(boisson.volume == 33){%>
+                                    <option value="<%=boisson.nom%>"><%=boisson.nom%></option>
+                                    <% }%>
+                            <%}); %>
+                        </select>
+                        <select id="extra_boisson2">
+                            <%boissons.forEach(function(boisson) {%>
+                                <%if(boisson.volume == 33){%>
+                                <option value="<%=boisson.nom%>"><%=boisson.nom%></option>
+                                <% }%>
+                            <%}); %>
+                        </select>
+                        
+                    </div>
             </div><br>
             <div class id="entrées">
                 <h2>Entrées</h2>
                 <% entrees.forEach(function(entree) { %>
                     <div id="div_<%=entree.nom %>" class="entree row">
-                        <label for="<%=entree.nom%>" class="col-sm-3"><%= entree.nom%></label>
-                        <label for="<%=entree.nom %>" class="price col-sm-3" id="price_<%=entree.nom%>"><%=entree.prix%>$</label>
+                        <label for="<%=entree.nom%>" class="col-sm-2"><%= entree.nom%></label>
+                        <label for="<%=entree.nom %>" class="price col-sm-2" id="price_<%=entree.nom%>"><%=entree.prix%>$</label>
                         <img id="preview" src="../images/<%=entree.nom%>.jpg" class="col-sm-3">
                         <input type="checkbox" name="<%=entree.nom%>" id="<%=entree.nom%>" class="col-sm-1">
-                        <select id="sauce_<%=entree.nom%>" class="col-sm-1" hidden>
+                        <select id="sauce_<%=entree.nom%>" name="<%=entree.nom%>" hidden>
                             <option value="<%=entree.sauce1%>"><%=entree.sauce1%></option>
                             <option value="<%=entree.sauce2%>"><%=entree.sauce2%></option>
                         </select>
-                        <input type="number" value="1" min="1" id="quant_<%=entree.nom%>" class="quantité col-sm-1" hidden>
+                        <input type="number" name="<%=entree.nom%>" value="1" min="1" id="quant_<%=entree.nom%>" class="quantité" hidden>
 
                     </div><br>
                 <% }); %>
@@ -64,16 +96,16 @@
                 <h2>Pizzas</h2>
                 <% pizzas.forEach(function(pizza) { %>
                     <div id="div_<%=pizza.nom %>" class="pizza row">
-                        <img id="preview" src="../images/<%=pizza.nom%>.png" class="col-sm-3">
                         <label for="<%=pizza.nom%>" class="col-sm-3"><%= pizza.nom%></label>
                         <label for="<%=pizza.nom %>" class="price col-sm-3" id="price_<%=pizza.nom%>"><%=pizza.prix%>$</label>
+                        <img id="preview" src="../images/<%=pizza.nom%>.png" class="col-sm-3">
                         <input type="checkbox" name="<%=pizza.nom%>" class="col-sm-1" id="<%=pizza.nom%>">
-                        <select id="size_<%=pizza.nom%>" class="col-sm-1" hidden>
+                        <select id="size_<%=pizza.nom%>" name="<%=pizza.nom%>" class="col-sm-1" hidden>
                             <option value="LARGE">LARGE</option>
                             <option value="MEDIUM">MEDIUM</option>
                             <option value="SMALL">SMALL</option>
                         </select>
-                        <input type="number" value="1" min="1" class="quantité col-sm-1" id="quant_<%=pizza.nom%>" hidden>
+                        <input type="number" name="<%=pizza.nom%>" value="1" min="1" class="quantité col-sm-1" id="quant_<%=pizza.nom%>" hidden>
                         
                     </div><br>
                 <% }); %>
@@ -88,7 +120,7 @@
                         <label for="<%=boisson.nom %>" class="price col-sm-2" id="price_<%=boisson.nom%>"><%=boisson.prix%>$</label>
                         <img id="preview" src="../images/<%=boisson.nom%>.png" class="col-sm-2">
                         <input type="checkbox" name="<%=boisson.nom%>" class="col-sm-1" id="<%=boisson.nom%>">
-                        <input type="number" value="1" min="1" id="quant_<%=boisson.nom%>" class="quantité col-sm-1" hidden>
+                        <input type="number" name="<%=boisson.nom%>" value="1" min="1" id="quant_<%=boisson.nom%>" class="quantité col-sm-1" hidden>
                     </div><br>
                 <% }); %>
             </div><br>

@@ -10,9 +10,9 @@ h2 {
 	font-weight: bold;
 }
 
-.preview{
-	max-width: 100px;
-	max-height: 100px;
+#preview{
+	max-width: 300px;
+	max-height: 300px;
 	clear:both;
 }
 
@@ -44,7 +44,14 @@ label{
 	display: block;
 	width: 300px;
 	float: left;
+	margin-top: 50px;
 }
-input[type=checkbox]{
-	width: auto;
+
+select{
+	max-height: 30px;
+}
+
+input{
+	max-height: 30px;
+	margin-top: 50px;
 }
