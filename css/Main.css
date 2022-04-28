@@ -38,12 +38,9 @@ h2 {
 	font-size: xx-large;
 }
 
-
-
 label{
 	display: block;
 	width: 300px;
-	float: left;
 	margin-top: 50px;
 }
 
@@ -54,4 +51,8 @@ select{
 input{
 	max-height: 30px;
 	margin-top: 50px;
+}
+
+.panier{
+	background-color: azure;
 }

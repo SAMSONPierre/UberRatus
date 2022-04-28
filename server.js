@@ -65,8 +65,21 @@ serv.get('/',function (req,res) {
 });
 
 serv.post('/',function (req,res) {
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
     console.log(req.body);
+});
+
+serv.post('/formulaire',function(req,res){
+    console.log(req.body);
+    res.render('formulaire.ejs');
+});
+
+serv.post('/merci',function(req,res){
+    nom = req.body.nom;
+    prenom = req.body.prenom;
+    ville = req.body.ville;
+    adresse = req.body.adresse;
+
+    res.send("Merci " + nom + " " + prenom + " pour votre commande. Elle arrivera dans 20 minutes au " + adresse + " à " + ville);
 });
  
 serv.listen(8080);

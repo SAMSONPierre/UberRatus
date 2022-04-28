@@ -39,7 +39,7 @@
 </nav>
 <div class="container-fluid">
         <h1> Uber Ratus </h1>
-        <form action="" method="POST" class>
+        <form action="/formulaire" method="POST" class>
             <div class id="menus">
                 <h2>Menus</h2>
                     <div id="div_extra" class ="menu row">
@@ -72,7 +72,6 @@
                                 <% }%>
                             <%}); %>
                         </select>
-                        
                     </div>
             </div><br>
             <div class id="entrées">
@@ -81,14 +80,12 @@
                     <div id="div_<%=entree.nom %>" class="entree row">
                         <label for="<%=entree.nom%>" class="col-sm-2"><%= entree.nom%></label>
                         <label for="<%=entree.nom %>" class="price col-sm-2" id="price_<%=entree.nom%>"><%=entree.prix%>$</label>
-                        <img id="preview" src="../images/<%=entree.nom%>.jpg" class="col-sm-3">
-                        <input type="checkbox" name="<%=entree.nom%>" id="<%=entree.nom%>" class="col-sm-1">
-                        <select id="sauce_<%=entree.nom%>" name="<%=entree.nom%>" hidden>
+                        <img id="preview" src="../images/<%=entree.nom%>.jpg" class="col-sm-3">           
+                        <select id="sauce_<%=entree.nom%>" name="<%=entree.nom%>" class="col-sm-2">
                             <option value="<%=entree.sauce1%>"><%=entree.sauce1%></option>
                             <option value="<%=entree.sauce2%>"><%=entree.sauce2%></option>
                         </select>
-                        <input type="number" name="<%=entree.nom%>" value="1" min="1" id="quant_<%=entree.nom%>" class="quantité" hidden>
-
+                        <input type="button" value="Ajouter au panier" name="<%=entree.nom%>" id="<%=entree.nom%>" class="col-sm-2">    
                     </div><br>
                 <% }); %>
             </div>
@@ -96,17 +93,15 @@
                 <h2>Pizzas</h2>
                 <% pizzas.forEach(function(pizza) { %>
                     <div id="div_<%=pizza.nom %>" class="pizza row">
-                        <label for="<%=pizza.nom%>" class="col-sm-3"><%= pizza.nom%></label>
-                        <label for="<%=pizza.nom %>" class="price col-sm-3" id="price_<%=pizza.nom%>"><%=pizza.prix%>$</label>
+                        <label for="<%=pizza.nom%>" class="col-sm-2"><%= pizza.nom%></label>
+                        <label for="<%=pizza.nom %>" class="price col-sm-2" id="price_<%=pizza.nom%>"><%=pizza.prix%>$</label>
                         <img id="preview" src="../images/<%=pizza.nom%>.png" class="col-sm-3">
-                        <input type="checkbox" name="<%=pizza.nom%>" class="col-sm-1" id="<%=pizza.nom%>">
-                        <select id="size_<%=pizza.nom%>" name="<%=pizza.nom%>" class="col-sm-1" hidden>
+                        <select id="size_<%=pizza.nom%>" name="<%=pizza.nom%>" class="col-sm-2" >
                             <option value="LARGE">LARGE</option>
                             <option value="MEDIUM">MEDIUM</option>
                             <option value="SMALL">SMALL</option>
                         </select>
-                        <input type="number" name="<%=pizza.nom%>" value="1" min="1" class="quantité col-sm-1" id="quant_<%=pizza.nom%>" hidden>
-                        
+                        <input type="button" value="Ajouter au panier" name="<%=pizza.nom%>" id="<%=pizza.nom%>" class="col-sm-2">                        
                     </div><br>
                 <% }); %>
             
@@ -116,24 +111,32 @@
                 <% boissons.forEach(function(boisson) { %>
                     <div id="div_<%=boisson.nom %>" class="boisson row">
                         <label for="<%=boisson.nom%>" class="col-sm-2"><%= boisson.nom%></label>
-                        <label for="<%=boisson.nom%>" class="col-sm-2"><%=boisson.volume%>cL</label>
+                        <label for="<%=boisson.nom%>" id="vol_<%=boisson.nom%>" class="col-sm-2"><%=boisson.volume%>cL</label>
                         <label for="<%=boisson.nom %>" class="price col-sm-2" id="price_<%=boisson.nom%>"><%=boisson.prix%>$</label>
                         <img id="preview" src="../images/<%=boisson.nom%>.png" class="col-sm-2">
-                        <input type="checkbox" name="<%=boisson.nom%>" class="col-sm-1" id="<%=boisson.nom%>">
-                        <input type="number" name="<%=boisson.nom%>" value="1" min="1" id="quant_<%=boisson.nom%>" class="quantité col-sm-1" hidden>
+                        <input type="button" value="Ajouter au panier" name="<%=boisson.nom%>" id="<%=boisson.nom%>" class="col-sm-2">                        
                     </div><br>
                 <% }); %>
             </div><br>
             <div id="submit">
                 <input type="submit" value="Confirmer la commande">
             </div>
-            <div id="total">
-                <p id="prix_total">Total : 0 $</p>
-            </div>
         </form>
     </div>
     
 </div>
+<br>
+<div>
+    <h2>Votre panier</h2>
+    <ul id="panier">
+        
+    </ul>
+    <input type="button" name="viderPanier" id="viderPanier" value="Vider le panier">
+    <div id="total">
+        <p id="prix_total">Total : 0 $</p>
+    </div>
+</div>
+
 
 </body>
 </html>

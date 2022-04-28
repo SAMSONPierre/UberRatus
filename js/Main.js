@@ -1,8 +1,18 @@
 $(document).ready (function () {
 	let total = 0;
+	let cpt = 0;
+
+	$(document).on('click','.button_panier',function(){
+		let b = this.parentNode;
+		const nom_plat = b.innerHTML.split(' ')[0];
+		b.parentNode.removeChild(b);
+		update_price(false,nom_plat);
+	});
+
 	document.querySelectorAll('.pizza').forEach(function(elem) {
 		let id = elem.id;
 		id = id.replace("div_","");
+		pizzas(id);
 
 	});
 
@@ -18,60 +28,72 @@ $(document).ready (function () {
 		entrees(id);
 	});
 	
-	
-	function boisson(nom){
-		let boisson = document.getElementById("div_"+nom);
-		let b = $("input[name="+nom+"]");
+	function boisson(nom_plat){
+		let boisson = $("input[name="+nom_plat+"]");
+		boisson.click(function(){
+			let panier = document.getElementById("panier");
+			let new_element = document.createElement("li");
+			new_element.textContent = nom_plat + " " + getVolume(nom_plat) + "cL " + getPrice(nom_plat) + "$";
+			new_element.className = "panier";
 
-		b.change(function(){
-			if(b.prop("checked")){
-				document.getElementById("quant_"+nom).hidden = false;
-				update_price(true,nom,1);
-			}
-			else{
-				document.getElementById("quant_"+nom).hidden = true;
-				update_price(false,nom,1);
-			}
-		});
+			let button = document.createElement("input");
+			button.type = "button";
+			button.className = "button_panier";
+			button.value = "Supprimer du panier";
+			new_element.append(button);
 
-		
+			panier.append(new_element);
+			update_price(true,nom_plat);
+
+			button.on("click",function(){
+				alert(button.value);
+			});
+		});	
 	}
 	
 	function entrees(nom_plat){
-		let entrees = document.getElementById("div_"+nom_plat);
-		let cesar = $("input[name="+nom_plat+"]");
+		let entree = $("input[name="+nom_plat+"]");
+		entree.click(function(){
+			let panier = document.getElementById("panier");
+			let new_element = document.createElement("li");
+			new_element.textContent = nom_plat + " " + getSauce(nom_plat) + " " + getPrice(nom_plat) + "$";
+			new_element.className = "panier";
 
-		
-		cesar.change(function(){
-			if(cesar.prop("checked")){
-				
-				document.getElementById("sauce_"+nom_plat).hidden = false;
-				document.getElementById("quant_"+nom_plat).hidden = false;
-				update_price(true,nom_plat,1);
-			}
-			else{
-				document.getElementById("sauce_"+nom_plat).hidden = true;
-				document.getElementById("quant_"+nom_plat).hidden = true;
-				update_price(false,nom_plat,1);
-			}
-		})
+			let button = document.createElement("input");
+			button.type = "button";
+			button.className = "button_panier";
+			button.value = "Supprimer du panier";
+			new_element.append(button);
+
+			panier.append(new_element);
+			update_price(true,nom_plat);
+
+			button.on("click",function(){
+				alert(button.value);
+			});
+		});
 	}
 	function pizzas(nom_plat){
-		let entrees = document.getElementById("div_"+nom_plat);
-		let cesar = $("input[name="+nom_plat+"]");
-		cesar.change(function(){
-			if(cesar.prop("checked")){
+		let pizza = $("input[name="+nom_plat+"]");
+		pizza.click(function(){
+			let panier = document.getElementById("panier");
+			let new_element = document.createElement("li");
+			new_element.textContent = nom_plat + " " + getTaille(nom_plat) + " " + getPrice(nom_plat) + "$";
+			new_element.className = "panier";
 
-				document.getElementById("size_"+nom_plat).hidden = false;
-				document.getElementById("quant_"+nom_plat).hidden = false;
-				update_price(true,nom_plat,1);
-			}
-			else{
-				document.getElementById("size_"+nom_plat).hidden = true;
-				document.getElementById("quant_"+nom_plat).hidden = true;
-				update_price(false,nom_plat,1);
-			}
-		})
+			let button = document.createElement("input");
+			button.type = "button";
+			button.className = "button_panier";
+			button.value = "Supprimer du panier";
+			new_element.append(button);
+
+			panier.append(new_element);
+			update_price(true,nom_plat);
+
+			button.on("click",function(){
+				alert(button.value);
+			});
+		});
 	}
 
 	function pizzaComp(){
@@ -102,23 +124,43 @@ $(document).ready (function () {
 		cesar.change(function(){
 			if(cesar.prop("checked")){
 				plat.append(sauce);
-				update_price(true,nom_plat,1);
+				update_price(true,nom_plat);
 			}
 			else{
 				sauce.remove();
-				update_price(false,nom_plat,1);
+				update_price(false,nom_plat);
 			}
 		})
 	}
 
-
-	function update_price(flag,nom_plat,quantity){
+	function getPrice(nom_plat){
 		let price = document.getElementById("price_"+nom_plat);
+		return parseInt(price.textContent);
+	}
+
+	function getSauce(nom_plat){
+		let sauce = document.getElementById("sauce_"+nom_plat);
+		return sauce.value;
+	}
+
+	function getTaille(nom_plat){
+		let taille = document.getElementById("size_"+nom_plat);
+		return taille.value;
+	}
+
+	function getVolume(nom_plat){
+		let volume = document.getElementById("vol_"+nom_plat);
+		return volume.value;
+	}
+
+
+	function update_price(flag,nom_plat){
+		let price = getPrice(nom_plat);
 		if(flag){
-			total += quantity * parseInt(price.textContent);
+			total +=  price;
 		}
 		else{
-			total -= quantity * parseInt(price.textContent);
+			total -=  price;
 		}
 		let prix = document.getElementById("prix_total");
 		prix.textContent = "Total : " + total + " $."
