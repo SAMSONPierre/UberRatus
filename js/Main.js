@@ -2,10 +2,17 @@ $(document).ready (function () {
 	let total = 0;
 	let cpt = 0;
 
+	function getNbElements(){
+		return $("#panier li").length;
+	}
 	$(document).on('click','.button_panier',function(){
 		let b = this.parentNode;
 		const nom_plat = b.innerHTML.split(' ')[0];
 		b.parentNode.removeChild(b);
+		if(getNbElements() == 0){
+			var valider = document.getElementById("submit");
+			valider.disabled = true;
+		}
 		update_price(false,nom_plat);
 	});
 
@@ -33,8 +40,14 @@ $(document).ready (function () {
 		boisson.click(function(){
 			let panier = document.getElementById("panier");
 			let new_element = document.createElement("li");
-			new_element.textContent = nom_plat + " " + getVolume(nom_plat) + "cL " + getPrice(nom_plat) + "$";
-			new_element.className = "panier";
+			let input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "panier";
+			input.value = "boisson" + " " + nom_plat + " " + getVolume(nom_plat) + " " + getPrice(nom_plat) + "$";
+			new_element.textContent = nom_plat + " " + getVolume(nom_plat) + " " + getPrice(nom_plat) + "$";
+			new_element.name = "panier";
+
+			new_element.append(input);
 
 			let button = document.createElement("input");
 			button.type = "button";
@@ -42,12 +55,12 @@ $(document).ready (function () {
 			button.value = "Supprimer du panier";
 			new_element.append(button);
 
+			let valider = document.getElementById("submit");
+			valider.disabled = false;
+
 			panier.append(new_element);
 			update_price(true,nom_plat);
-
-			button.on("click",function(){
-				alert(button.value);
-			});
+			getNbElements();
 		});	
 	}
 	
@@ -56,14 +69,23 @@ $(document).ready (function () {
 		entree.click(function(){
 			let panier = document.getElementById("panier");
 			let new_element = document.createElement("li");
+			let input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "panier";
+			input.value = "entree" + " " + nom_plat + " " + getSauce(nom_plat) + " " + getPrice(nom_plat) + "$";
 			new_element.textContent = nom_plat + " " + getSauce(nom_plat) + " " + getPrice(nom_plat) + "$";
-			new_element.className = "panier";
+			new_element.name = "panier";
+
+			new_element.append(input);
 
 			let button = document.createElement("input");
 			button.type = "button";
 			button.className = "button_panier";
 			button.value = "Supprimer du panier";
 			new_element.append(button);
+
+			let valider = document.getElementById("submit");
+			valider.disabled = false;
 
 			panier.append(new_element);
 			update_price(true,nom_plat);
@@ -78,14 +100,24 @@ $(document).ready (function () {
 		pizza.click(function(){
 			let panier = document.getElementById("panier");
 			let new_element = document.createElement("li");
+
+			let input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "panier";
+			input.value = "pizza" + " " + nom_plat + " " + getTaille(nom_plat) + " " + getPrice(nom_plat) + "$";
 			new_element.textContent = nom_plat + " " + getTaille(nom_plat) + " " + getPrice(nom_plat) + "$";
-			new_element.className = "panier";
+			new_element.name = "panier";
+
+			new_element.append(input);
 
 			let button = document.createElement("input");
 			button.type = "button";
 			button.className = "button_panier";
 			button.value = "Supprimer du panier";
 			new_element.append(button);
+
+			let valider = document.getElementById("submit");
+			valider.disabled = false;
 
 			panier.append(new_element);
 			update_price(true,nom_plat);
@@ -137,7 +169,10 @@ $(document).ready (function () {
 		let price = document.getElementById("price_"+nom_plat);
 		return parseInt(price.textContent);
 	}
-
+	function getNomComplet(nom_plat){
+		let nomComplet = document.getElementById("nom_"+nom_plat);
+		return nomComplet.textContent;
+	}
 	function getSauce(nom_plat){
 		let sauce = document.getElementById("sauce_"+nom_plat);
 		return sauce.value;
@@ -150,7 +185,7 @@ $(document).ready (function () {
 
 	function getVolume(nom_plat){
 		let volume = document.getElementById("vol_"+nom_plat);
-		return volume.value;
+		return volume.textContent;
 	}
 
 

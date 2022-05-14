@@ -17,7 +17,7 @@ h2 {
 }
 
 .container-fluid{
-	background-color: rgb(46, 24, 24);
+	background-color: rgb(162, 162, 162);
 	color: white;
 }
 
@@ -28,7 +28,7 @@ h2 {
 .quantité{
 	max-width: 50px;
 }
-#submit{
+.submit{
 	text-align: center;
 }
 
@@ -40,8 +40,6 @@ h2 {
 
 label{
 	display: block;
-	width: 300px;
-	margin-top: 50px;
 }
 
 select{
@@ -53,6 +51,7 @@ input{
 	margin-top: 50px;
 }
 
-.panier{
-	background-color: azure;
-}
+table, th, td {
+	border: 1px solid;
+  }
+
