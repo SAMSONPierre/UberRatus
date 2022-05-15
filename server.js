@@ -181,6 +181,7 @@ serv.use(bodyParser.json());
 serv.use(bodyParser.urlencoded());
 
 serv.get('/',function (req,res) {
+    if(!flag){ getLivreurDispo(); flag = true;}
     res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
 });
 
@@ -207,6 +208,7 @@ serv.get('/connexion',function(req,res){
 
 serv.post('/connexion',function(req,res){
     name_sessions = req.body.name;
+    console.log(livreur_pas_en_service);
     console.log("WELCOME " + name_sessions);
     pool.query("UPDATE livreur SET en_service = true WHERE nom = '" + name_sessions + "';");
     if(livreur_pas_en_service.includes(name_sessions)){
@@ -215,16 +217,11 @@ serv.post('/connexion',function(req,res){
             livreur_pas_en_service.splice(myIndex, 1);
         }
         pool.query("UPDATE livreur SET en_service = true WHERE livreur.nom = '" + name_sessions +"';");
-        if(commande_en_attente.length === 0 ){
-            pool.query("UPDATE livreur SET flag = false WHERE livreur.nom = '"+ name_sessions +"';");
-            livreur_dispo.push(name_sessions);
-            console.log("Une commande vous sera bientôt attribuée");
-        }
-        else{
-            var liv_id = commande_en_attente.shift();
-            pool.query("UPDATE livraison SET livreur = '"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
-            console.log("La commande n°" + liv_id + " a été attribué à " + name_sessions);
-        }
+        attributeCommand();
+    }
+    else if(livreur_dispo.includes(name_sessions)){
+        console.log("case livreur dispo");
+        attributeCommand();
     }
     else{
         console.log("Vous avez une commande à livrer");
@@ -261,19 +258,11 @@ serv.post('/livraison',function(req,res){
     pool.query("DELETE FROM livraison WHERE id_livraison = " + id + ";");
     pool.query("DELETE FROM elem_livraison WHERE id_livraison = " + id + ";");
     
-    if(commande_en_attente.length === 0){
-        pool.query("UPDATE livreur SET flag = false WHERE livreur.nom = '"+ name_sessions +"';");
-        livreur_dispo.push(name_sessions);
-    }
-    else{
-        var liv_id = commande_en_attente.shift();
-        pool.query("UPDATE livraison SET livreur = '"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
-    }
+    attributeCommand();
     res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
 });
 
 serv.post('/merci',function(req,res){
-    if(!flag){ getLivreurDispo(); flag = true;}
     var liv;
     if(livreur_dispo.length === 0){
         liv = "waiting";
@@ -302,3 +291,16 @@ pool.end;
 serv.listen(8080);
 
 console.log("The server is now running at http://localhost:8080");
+
+function attributeCommand(){
+    if(commande_en_attente.length === 0 ){
+        pool.query("UPDATE livreur SET flag = false WHERE livreur.nom = '"+ name_sessions +"';");
+        livreur_dispo.push(name_sessions);
+        console.log("Une commande vous sera bientôt attribuée");
+    }
+    else{
+        var liv_id = commande_en_attente.shift();
+        pool.query("UPDATE livraison SET livreur = '"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
+        console.log("La commande n°" + liv_id + " a été attribué à " + name_sessions);
+    }
+}
