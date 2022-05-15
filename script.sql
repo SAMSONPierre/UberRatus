@@ -82,6 +82,7 @@ INSERT INTO size(nom,supp) VALUES('Petite',0);
 INSERT INTO size(nom,supp) VALUES('Moyenne',2);
 INSERT INTO size(nom,supp) VALUES('Grande',3);
 
+INSERT INTO ingredients(nom,prix) VALUES('Rien',0);
 INSERT INTO ingredients(nom,prix) VALUES('Sauce tomate',1);
 INSERT INTO ingredients(nom,prix) VALUES('Creme fraiche',1);
 INSERT INTO ingredients(nom,prix) VALUES('Gruyere',1);

@@ -9,7 +9,7 @@ const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
 database: 'ubereats',
-password: 'post314', // à modifier
+password: 'dinoclier', // à modifier
 port: 5432
 });
 
@@ -182,7 +182,7 @@ serv.use(bodyParser.urlencoded());
 
 serv.get('/',function (req,res) {
     if(!flag){ getLivreurDispo(); flag = true;}
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size});
 });
 
 serv.get('/livraison',function(req,res) {

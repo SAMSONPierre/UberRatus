@@ -1,7 +1,21 @@
 $(document).ready (function () {
 	let total = 0;
 	let cpt = 0;
+	let price_base = [];
 
+	price_base["custom"] = getPrice("custom");
+	for(var i =0;i<3;i++){
+		var id = "supplement_list"+i;
+		$(document).on('change','#'+id,function(){
+			let res = 0;
+			for(var j=0;j<3;j++){
+				var idj = "supplement_list"+j;
+				res += parseInt(document.getElementById(idj).value[0]);
+			}
+			update_price_elem("custom",res);
+			
+	   });
+	}
 	function getNbElements(){
 		return $("#panier li").length;
 	}
@@ -20,6 +34,12 @@ $(document).ready (function () {
 		let id = elem.id;
 		id = id.replace("div_","");
 		pizzas(id);
+		price_base[id] = getPrice(id);
+		$(document).on('change','#size_'+id,function(){
+			var elem = document.getElementById("size_"+id);
+			var x = parseInt(elem.value[0])
+			update_price_elem(id,x);
+		});
 
 	});
 
@@ -34,12 +54,7 @@ $(document).ready (function () {
 		id = id.replace("div_","");
 		entrees(id);
 	});
-	document.querySelectorAll('.custom').forEach(function (elem){
-		let id = elem.id;
-		id = id.replace("custom","");
-		pizzaComp(id);
-	});
-	
+	pizzaComp("custom");
 	function boisson(nom_plat){
 		let boisson = $("input[name="+nom_plat+"]");
 		boisson.click(function(){
@@ -140,7 +155,8 @@ $(document).ready (function () {
 			let panier = document.getElementById("panier");
 			let new_element = document.createElement("li");
 			let ingredient0 = getIngredient(0);
-			let ingredient1 = getIngredient(2);
+			alert("test");
+			let ingredient1 = getIngredient(1);
 			let ingredient2 = getIngredient(2);
 			let list= ingredient0+" "+ingredient1 +" "+ingredient2;
 			let input = document.createElement("input");
@@ -168,6 +184,12 @@ $(document).ready (function () {
 				alert(button.value);
 			});
 		});
+	}
+
+	function update_price_elem(nom_plat,x){
+		let price = document.getElementById("price_"+nom_plat);
+		let new_price = price_base[nom_plat] + x;
+		price.innerHTML = new_price + "$";
 	}
 	function getPrice(nom_plat){
 		let price = document.getElementById("price_"+nom_plat);

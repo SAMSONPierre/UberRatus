@@ -96,10 +96,9 @@
                     <label class="price col-sm-2" id="price_<%=pizza.id%>"><%=pizza.prix%>$</label>
                     <img id="preview" src="../images/<%=pizza.id%>.png" class="col-sm-3">
                     <select id="size_<%=pizza.id%>" name="<%=pizza.id%>" class="col-sm-2" >
-                        <
-                        <option value="LARGE">LARGE</option>
-                        <option value="MEDIUM">MEDIUM</option>
-                        <option value="SMALL">SMALL</option>
+                        <% size.forEach(function(element) { %>
+                            <option><%=element.supp%>$ <%=element.nom%></option>
+                        <% }); %>
                     </select>
                     <input type="button" value="Ajouter au panier" name="<%=pizza.id%>" id="<%=pizza.id%>" class="col-sm-2">                        
                 </div><br>
@@ -107,7 +106,7 @@
 
             <div id="custom">
                 <label id="nom_custom" class="col-sm-2">Fais ta pizza !</label>
-                <label class="price col-sm-2" id="price_custom">13$</label>
+                <label class="price col-sm-2" id="price_custom">10$</label>
                 <img id="preview" src="../images/composition.png" class="col-sm-3">
                 <select id="size_custom" name="custom>" class="col-sm-2" >
                     <option value="LARGE">LARGE</option>
@@ -117,16 +116,16 @@
                 <br>
                 <div id="ingredient">
                     <% for(var i=0;i<3;i++){ %>
-                        <select id="ingredient_list<%i%>">
+                        <select id="ingredient_list<%=i%>">
                             <% ingredients.forEach(function(ingredient){ %>
                                 <option><%=ingredient.nom%></option>
                             <% }); %>
                         </select>
                     <% }%>
                     <% for (var i = 0; i < 3; i++){ %>
-                            <select id="supplement_list<%i%>">
+                            <select id="supplement_list<%=i%>">
                                 <%ingredients.forEach(function (ingredient){%>
-                                <option><%ingredient.nom%></option>
+                                <option><%=ingredient.prix%>$ <%=ingredient.nom%></option>
                                 <%});%>
                             </select>
                             <% }%>
