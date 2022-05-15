@@ -9,7 +9,7 @@ const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
 database: 'ubereats',
-password: 'dinoclier', // à modifier
+password: 'post314', // à modifier
 port: 5432
 });
 

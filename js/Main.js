@@ -34,6 +34,11 @@ $(document).ready (function () {
 		id = id.replace("div_","");
 		entrees(id);
 	});
+	document.querySelectorAll('.custom').forEach(function (elem){
+		let id = elem.id;
+		id = id.replace("custom","");
+		pizzaComp(id);
+	});
 	
 	function boisson(nom_plat){
 		let boisson = $("input[name="+nom_plat+"]");
@@ -127,44 +132,43 @@ $(document).ready (function () {
 			});
 		});
 	}
+	//TODO afficher le prix de base est seulement les trois premiers ingredient
+	//puis bouton + pour rajouter supplément max 6
+	function pizzaComp(nom_plat){
+		let comp = $("input[name="+nom_plat+"]");
+		comp.click(function (){
+			let panier = document.getElementById("panier");
+			let new_element = document.createElement("li");
+			let ingredient0 = getIngredient(0);
+			let ingredient1 = getIngredient(2);
+			let ingredient2 = getIngredient(2);
+			let list= ingredient0+" "+ingredient1 +" "+ingredient2;
+			let input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "panier";
+			input.value = "compo" + "  " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
+			new_element.textContent = "compo " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
+			new_element.name = "panier";
 
-	function pizzaComp(){
-		let pizzaComp = document.getElementById("div_pizzaComp");
-		let button = $("input[name=pizzaComp]");
-		button.change(function(){
-			if(button.prop("checked")){
-				document.getElementById("ingr_pizzaComp").hidden = true;
-			}
-			else{
-				document.getElementById("ingr_pizzaComp").hidden = false;
+			new_element.append(input);
 
-			}
+			let button = document.createElement("input");
+			button.type = "button";
+			button.className = "button_panier";
+			button.value = "Supprimer du panier";
+			new_element.append(button);
+
+			let valider = document.getElementById("submit");
+			valider.disabled = false;
+
+			panier.append(new_element);
+			update_price(true,nom_plat);
+
+			button.on("click",function(){
+				alert(button.value);
+			});
 		});
 	}
-	function composition(nom_plat,sauceListe){
-		let plat = document.getElementById("div_"+nom_plat);
-		let cesar = $("input[name="+nom_plat+"]");
-		let sauce = document.createElement("select");
-		sauce.id = nom_plat+"_mySauce";
-		for(var i = 0;i< sauceListe.length;i++){
-			var option = document.createElement("option");
-			option.value = sauceListe[i];
-			option.text = sauceListe[i];
-			sauce.appendChild(option);
-		}
-
-		cesar.change(function(){
-			if(cesar.prop("checked")){
-				plat.append(sauce);
-				update_price(true,nom_plat);
-			}
-			else{
-				sauce.remove();
-				update_price(false,nom_plat);
-			}
-		})
-	}
-
 	function getPrice(nom_plat){
 		let price = document.getElementById("price_"+nom_plat);
 		return parseInt(price.textContent);
@@ -181,6 +185,14 @@ $(document).ready (function () {
 	function getTaille(nom_plat){
 		let taille = document.getElementById("size_"+nom_plat);
 		return taille.value;
+	}
+	function getIngredient(numero){
+		let compo = document.getElementById("ingredient_list"+numero);
+		return compo.value;
+	}
+
+	function getSupplement(numero){
+		let supp = document.getElementById("supplement_list"+numero);
 	}
 
 	function getVolume(nom_plat){

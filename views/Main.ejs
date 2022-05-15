@@ -104,9 +104,9 @@
                 </div><br>
             <% }); %>
 
-            <div id="div_custom">
+            <div id="custom">
                 <label id="nom_custom" class="col-sm-2">Fais ta pizza !</label>
-                <label class="price col-sm-2" id="price_custom">X$</label>
+                <label class="price col-sm-2" id="price_custom">13$</label>
                 <img id="preview" src="../images/composition.png" class="col-sm-3">
                 <select id="size_custom" name="custom>" class="col-sm-2" >
                     <option value="LARGE">LARGE</option>
@@ -114,14 +114,21 @@
                     <option value="SMALL">SMALL</option>
                 </select>
                 <br>
-                <div id="ingredients">
-                    <% for(var i=0;i<6;i++){ %>
-                        <select>
+                <div id="ingredient">
+                    <% for(var i=0;i<3;i++){ %>
+                        <select id="ingredient_list<%i%>">
                             <% ingredients.forEach(function(ingredient){ %>
                                 <option><%=ingredient.nom%></option>
                             <% }); %>
                         </select>
                     <% }%>
+                    <% for (var i = 0; i < 3; i++){ %>
+                            <select id="supplement_list<%i%>">
+                                <%ingredients.forEach(function (ingredient){%>
+                                <option><%ingredient.nom%></option>
+                                <%});%>
+                            </select>
+                            <% }%>
                 </div>
                 <input type="button" value="Ajouter au panier" name="custom" id="custom" class="col-sm-2"> 
             </div>
