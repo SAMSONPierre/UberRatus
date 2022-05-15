@@ -5,6 +5,8 @@ DROP TABLE IF EXISTS ingredients;
 DROP TABLE IF EXISTS livraison;
 DROP TABLE IF EXISTS elem_livraison;
 DROP TABLE IF EXISTS livreur;
+DROP TABLE IF EXISTS size;
+DROP TABLE IF EXISTS ingredients;
 
 CREATE TABLE boissons(
     id TEXT NOT NULL,
@@ -45,7 +47,8 @@ create TABLE elem_livraison(
 
 create TABLE livreur(
     nom TEXT,
-    flag boolean
+    flag boolean,
+    en_service boolean
 );
 
 create TABLE size(
@@ -70,9 +73,10 @@ INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('cesar','Salade Cesar',8,
 INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('wings','Wings de Poulet',8,'ketchup','mayo');
 INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('charcut','Plateau de charcuterie',8,'moutarde','mayo');
 
-INSERT INTO livreur(nom,flag) VALUES('billy',false);
-INSERT INTO livreur(nom,flag) VALUES('willy',false);
-INSERT INTO livreur(nom,flag) VALUES('silly',false);
+INSERT INTO livreur(nom,flag,en_service) VALUES('billy',true,true);
+INSERT INTO livreur(nom,flag,en_service) VALUES('willy',true,true);
+INSERT INTO livreur(nom,flag,en_service) VALUES('silly',false,true);
+INSERT INTO livreur(nom,flag,en_service) VALUES('test',false,false);
 
 INSERT INTO size(nom,supp) VALUES('Petite',0);
 INSERT INTO size(nom,supp) VALUES('Moyenne',2);

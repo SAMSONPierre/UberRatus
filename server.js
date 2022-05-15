@@ -31,17 +31,29 @@ var boissons;
 var ingredients;
 var livraison;
 var elem_livraison;
+var size;
 var commande = [];
 var total = 0;
 var name_sessions = "default";
 var livreur;
 var flag = false;
 var livreur_dispo = [];
+var commande_en_attente = [];
+var livreur_pas_en_service = [];
 
 pool.connect();
 pool.query("SELECT * FROM entrees",(err,res)=>{
     if(!err){
         entrees = res.rows;
+    }
+    else{
+        console.log(console.error);
+    }
+});
+
+pool.query("SELECT * FROM size",(err,res)=>{
+    if(!err){
+        size = res.rows;
     }
     else{
         console.log(console.error);
@@ -107,8 +119,11 @@ function getElemLivraison(){
 
 function getLivreurDispo(){
     livreur.forEach(element => {
-        if(!element.flag){
+        if(!element.flag && element.en_service){
             livreur_dispo.push(element.nom);
+        }
+        else if(!element.en_service){
+            livreur_pas_en_service.push(element.nom);
         }
     });
 }
@@ -193,6 +208,27 @@ serv.get('/connexion',function(req,res){
 serv.post('/connexion',function(req,res){
     name_sessions = req.body.name;
     console.log("WELCOME " + name_sessions);
+    pool.query("UPDATE livreur SET en_service = true WHERE nom = '" + name_sessions + "';");
+    if(livreur_pas_en_service.includes(name_sessions)){
+        var myIndex = livreur_pas_en_service.indexOf(name_sessions);
+        if (myIndex !== -1) {
+            livreur_pas_en_service.splice(myIndex, 1);
+        }
+        pool.query("UPDATE livreur SET en_service = true WHERE livreur.nom = '" + name_sessions +"';");
+        if(commande_en_attente.length === 0 ){
+            pool.query("UPDATE livreur SET flag = false WHERE livreur.nom = '"+ name_sessions +"';");
+            livreur_dispo.push(name_sessions);
+            console.log("Une commande vous sera bientôt attribuée");
+        }
+        else{
+            var liv_id = commande_en_attente.shift();
+            pool.query("UPDATE livraison SET livreur = '"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
+            console.log("La commande n°" + liv_id + " a été attribué à " + name_sessions);
+        }
+    }
+    else{
+        console.log("Vous avez une commande à livrer");
+    }
     res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
 });
 
@@ -224,19 +260,29 @@ serv.post('/livraison',function(req,res){
     //console.log(req.body.livre);
     pool.query("DELETE FROM livraison WHERE id_livraison = " + id + ";");
     pool.query("DELETE FROM elem_livraison WHERE id_livraison = " + id + ";");
-    pool.query("UPDATE livreur SET flag = false WHERE livreur.nom = '"+ name_sessions +"';");
-    console.log(livreur_dispo);
-    livreur_dispo.push(name_sessions);
-    console.log(livreur_dispo);
+    
+    if(commande_en_attente.length === 0){
+        pool.query("UPDATE livreur SET flag = false WHERE livreur.nom = '"+ name_sessions +"';");
+        livreur_dispo.push(name_sessions);
+    }
+    else{
+        var liv_id = commande_en_attente.shift();
+        pool.query("UPDATE livraison SET livreur = '"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
+    }
     res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
 });
 
 serv.post('/merci',function(req,res){
     if(!flag){ getLivreurDispo(); flag = true;}
-    var liv = livreur_dispo[0];
-    console.log(livreur_dispo);
-    livreur_dispo.shift();
-    console.log(livreur_dispo);
+    var liv;
+    if(livreur_dispo.length === 0){
+        liv = "waiting";
+        commande_en_attente.push(id);
+    }
+    else{
+        liv = livreur_dispo[0];
+        livreur_dispo.shift();
+    }
     nom = req.body.nom + " " + req.body.prenom;
     adresse = req.body.adresse + " " + req.body.ville + " " + req.body.postal;
     pool.query("INSERT INTO livraison(id_livraison,adresse,nom,total,livreur) VALUES(" + id +",'" +adresse +"','"+nom + "'," + total + ",'"+ liv + "');");
@@ -244,8 +290,13 @@ serv.post('/merci',function(req,res){
         pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[3] + "','" + element[2] +"');" );
     });
     pool.query("UPDATE livreur SET flag = true WHERE livreur.nom = '"+ liv +"';");
-    res.send("Merci " + nom + " pour votre commande. Elle arrivera dans 20 minutes au " + adresse + " et sera livrée par " + liv);
-    id++;
+    if(liv === "waiting"){
+        res.send("Votre commande a bien été prise en compte. Elle sera livrée quand un livreur sera disponible !");
+    }
+    else{
+        res.send("Merci " + nom + " pour votre commande. Elle arrivera dans 20 minutes au " + adresse + " et sera livrée par " + liv);
+    }
+        id++;
 });
 pool.end;
 serv.listen(8080);
