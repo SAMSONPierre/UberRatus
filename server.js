@@ -9,7 +9,7 @@ const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
 database: 'ubereats',
-password: 'dinoclier', // à modifier
+password: 'post314', // à modifier
 port: 5432
 });
 
@@ -226,7 +226,7 @@ serv.post('/connexion',function(req,res){
     else{
         console.log("Vous avez une commande à livrer");
     }
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size});
 });
 
 serv.post('/formulaire',function(req,res){
@@ -259,7 +259,7 @@ serv.post('/livraison',function(req,res){
     pool.query("DELETE FROM elem_livraison WHERE id_livraison = " + id + ";");
     
     attributeCommand();
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size});
 });
 
 serv.post('/merci',function(req,res){
@@ -276,6 +276,10 @@ serv.post('/merci',function(req,res){
     adresse = req.body.adresse + " " + req.body.ville + " " + req.body.postal;
     pool.query("INSERT INTO livraison(id_livraison,adresse,nom,total,livreur) VALUES(" + id +",'" +adresse +"','"+nom + "'," + total + ",'"+ liv + "');");
     commande.forEach(element => {
+        if(element[0]==="compo"){
+            console.log(element);
+            //pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[0] + "','" + element[element.length-1] +"');" );
+        }
         pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[3] + "','" + element[2] +"');" );
     });
     pool.query("UPDATE livreur SET flag = true WHERE livreur.nom = '"+ liv +"';");
@@ -300,7 +304,7 @@ function attributeCommand(){
     }
     else{
         var liv_id = commande_en_attente.shift();
-        pool.query("UPDATE livraison SET livreur = '"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
+        pool.query("UPDATE livraison SET livreur = ''"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
         console.log("La commande n°" + liv_id + " a été attribué à " + name_sessions);
     }
 }

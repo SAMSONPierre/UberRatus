@@ -45,6 +45,11 @@ create TABLE elem_livraison(
     x TEXT
 );
 
+create TABLE elem_compo(
+    id_compo INT,
+    nom TEXT
+)
+
 create TABLE livreur(
     nom TEXT,
     flag boolean,
@@ -83,8 +88,8 @@ INSERT INTO size(nom,supp) VALUES('Moyenne',2);
 INSERT INTO size(nom,supp) VALUES('Grande',3);
 
 INSERT INTO ingredients(nom,prix) VALUES('Rien',0);
-INSERT INTO ingredients(nom,prix) VALUES('Sauce tomate',1);
-INSERT INTO ingredients(nom,prix) VALUES('Creme fraiche',1);
+INSERT INTO ingredients(nom,prix) VALUES('Sauce_Tomate',1);
+INSERT INTO ingredients(nom,prix) VALUES('Creme_Fraiche',1);
 INSERT INTO ingredients(nom,prix) VALUES('Gruyere',1);
 INSERT INTO ingredients(nom,prix) VALUES('Mozarella',2);
 INSERT INTO ingredients(nom,prix) VALUES('Jambon',2);

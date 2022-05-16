@@ -147,23 +147,21 @@ $(document).ready (function () {
 			});
 		});
 	}
-	//TODO afficher le prix de base est seulement les trois premiers ingredient
-	//puis bouton + pour rajouter supplément max 6
+
 	function pizzaComp(nom_plat){
 		let comp = $("input[name="+nom_plat+"]");
 		comp.click(function (){
 			let panier = document.getElementById("panier");
 			let new_element = document.createElement("li");
 			let ingredient0 = getIngredient(0);
-			alert("test");
 			let ingredient1 = getIngredient(1);
 			let ingredient2 = getIngredient(2);
 			let list= ingredient0+" "+ingredient1 +" "+ingredient2;
 			let input = document.createElement("input");
 			input.type = "hidden";
 			input.name = "panier";
-			input.value = "compo" + "  " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
-			new_element.textContent = "compo " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
+			input.value = "custom" + "  " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
+			new_element.textContent = "custom " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
 			new_element.name = "panier";
 
 			new_element.append(input);
@@ -206,7 +204,8 @@ $(document).ready (function () {
 
 	function getTaille(nom_plat){
 		let taille = document.getElementById("size_"+nom_plat);
-		return taille.value;
+		let word = taille.value.split(' ');
+		return word[1];
 	}
 	function getIngredient(numero){
 		let compo = document.getElementById("ingredient_list"+numero);
