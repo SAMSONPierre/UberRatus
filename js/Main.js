@@ -147,8 +147,7 @@ $(document).ready (function () {
 			});
 		});
 	}
-	//TODO afficher le prix de base est seulement les trois premiers ingredient
-	//puis bouton + pour rajouter supplément max 6
+
 	function pizzaComp(nom_plat){
 		let comp = $("input[name="+nom_plat+"]");
 		comp.click(function (){
@@ -205,8 +204,13 @@ $(document).ready (function () {
 
 	function getTaille(nom_plat){
 		let taille = document.getElementById("size_"+nom_plat);
+<<<<<<< HEAD
 		let taille_split = taille.value.split(" ");
 		return taille_split[1];
+=======
+		let word = taille.value.split(' ');
+		return word[1];
+>>>>>>> add67412d2f08cf7440850bbaef0571f01d5c9de
 	}
 	function getIngredient(numero){
 		let compo = document.getElementById("ingredient_list"+numero);

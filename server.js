@@ -9,7 +9,7 @@ const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
 database: 'ubereats',
-password: 'dinoclier', // à modifier
+password: 'post314', // à modifier
 port: 5432
 });
 
@@ -286,6 +286,7 @@ serv.post('/merci',function(req,res){
     adresse = req.body.adresse + " " + req.body.ville + " " + req.body.postal;
     pool.query("INSERT INTO livraison(id_livraison,adresse,nom,total,livreur) VALUES(" + id +",'" +adresse +"','"+nom + "'," + total + ",'"+ liv + "');");
     commande.forEach(element => {
+<<<<<<< HEAD
         //console.log(element);
         if(element[0] === "custom"){
             //console.log(element);
@@ -297,6 +298,13 @@ serv.post('/merci',function(req,res){
         else{
             pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[3] + "','" + element[2] +"');" );
         }
+=======
+        if(element[0]==="compo"){
+            console.log(element);
+            //pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[0] + "','" + element[element.length-1] +"');" );
+        }
+        pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[3] + "','" + element[2] +"');" );
+>>>>>>> add67412d2f08cf7440850bbaef0571f01d5c9de
     });
     pool.query("UPDATE livreur SET flag = true WHERE livreur.nom = '"+ liv +"';");
     if(liv === "waiting"){
@@ -320,7 +328,7 @@ function attributeCommand(){
     }
     else{
         var liv_id = commande_en_attente.shift();
-        pool.query("UPDATE livraison SET livreur = '"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
+        pool.query("UPDATE livraison SET livreur = ''"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
         console.log("La commande n°" + liv_id + " a été attribué à " + name_sessions);
     }
 }
