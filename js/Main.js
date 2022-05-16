@@ -54,7 +54,10 @@ $(document).ready (function () {
 		id = id.replace("div_","");
 		entrees(id);
 	});
+
 	pizzaComp("custom");
+	menu("extra");
+
 	function boisson(nom_plat){
 		let boisson = $("input[name="+nom_plat+"]");
 		boisson.click(function(){
@@ -184,6 +187,41 @@ $(document).ready (function () {
 			});
 		});
 	}
+	//TODO
+	function menu(nom_plat){
+		let menu = $("input[name="+nom_plat+"]");
+		menu.click(function (){
+			let panier = document.getElementById("panier");
+			let new_element = document.createElement("li");
+			let list=getMenu();
+			let input = document.createElement("input");
+			input.type = "hidden";
+			input.name = "panier";
+			input.value = "extra" + "  " +list+" "+ getPrice(nom_plat) + "$";
+			new_element.textContent = "extra " +list+" "+ getPrice(nom_plat) + "$";
+			new_element.name = "panier";
+
+			new_element.append(input);
+
+			let button = document.createElement("input");
+			button.type = "button";
+			button.className = "button_panier";
+			button.value = "Supprimer du panier";
+			new_element.append(button);
+
+			let valider = document.getElementById("submit");
+			valider.disabled = false;
+
+			panier.append(new_element);
+			update_price(true,nom_plat);
+
+			$(document).on('change','#size_'+nom_plat,function(){
+				var elem = document.getElementById("size_"+nom_plat);
+				var x = parseInt(elem.value[0])
+				update_price_elem(nom_plat,x);
+			});
+		});
+	}
 
 	function update_price_elem(nom_plat,x){
 		let price = document.getElementById("price_"+nom_plat);
@@ -220,6 +258,17 @@ $(document).ready (function () {
 		let volume = document.getElementById("vol_"+nom_plat);
 		return volume.textContent;
 	}
+
+	function getMenu(){
+		let entree = document.getElementById("extra_entree");
+		let pizza = document.getElementById("extra_pizza");
+		let boisson1 = document.getElementById("extra_boisson1");
+		let boisson2 = document.getElementById("extra_boisson2");
+		let menu = entree.value+" "+pizza.value+" "+boisson1.value+" "+boisson2.value;
+		return menu;
+	}
+
+
 
 
 	function update_price(flag,nom_plat){

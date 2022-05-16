@@ -9,7 +9,7 @@ const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
 database: 'ubereats',
-password: 'dinoclier', // à modifier
+password: 'post314', // à modifier
 port: 5432
 });
 
@@ -92,6 +92,16 @@ pool.query("SELECT * FROM elem_custom",(err,res)=>{
     
 });
 
+pool.query("SELECT * FROM elem_menu",(err,res)=>{
+    if(!err){
+        elem_menu = res.rows;
+    }
+    else{
+        console.log(console.error);
+    }
+
+});
+
 function getLivraison(){
     return promise = new Promise((resolve, reject) => {
         pool.query("SELECT * FROM livraison",(err,res)=>{
@@ -123,6 +133,18 @@ function getElemLivraison(){
 function getElemCustom(){
     return promise = new Promise((resolve, reject) => {
         pool.query("SELECT * FROM elem_custom",(err,res)=>{
+            if(!err){
+                resolve(res.rows);
+            }
+            else{
+                reject(err);
+            }
+        });
+    });
+}
+function getElemMenu(){
+    return promise = new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM elem_menu",(err,res)=>{
             if(!err){
                 resolve(res.rows);
             }
@@ -214,7 +236,20 @@ pool.query("SELECT MAX(id_custom) FROM elem_custom",(err,res)=>{
         console.log(console.error);
     }
 });
-
+pool.query("SELECT MAX(id_menu) FROM elem_menu",(err,res)=>{
+    if(!err){
+        try{
+            let c = res.rows[0].max;
+            id_menu = c+1;
+        }
+        catch{
+            id_menu = 0;
+        }
+    }
+    else{
+        console.log(console.error);
+    }
+});
 
 serv.use(express.static('.'));
 serv.use(bodyParser.json());

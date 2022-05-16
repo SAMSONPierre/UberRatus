@@ -52,6 +52,12 @@ create TABLE elem_custom(
     nom TEXT
 );
 
+create TABLE elem_menu(
+    id_menu      INT,
+    id_livraison INT,
+    nom          TEXT
+);
+
 create TABLE livreur(
     nom TEXT,
     flag boolean,

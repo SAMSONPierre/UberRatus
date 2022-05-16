@@ -42,13 +42,12 @@
 </nav>
 <div class="container-fluid">
         <h1> Uber Ratus </h1>
-        <div class id="menus">
+        <div  id="menus">
             <h2>Menus</h2>
                 <div id="div_extra" class ="menu row">
                     <label class="col-sm-2">Extra Menu</label>
-                    <label class="price col-sm-2">30$</label>
-                    <img id="preview" src="../images/fanta.png" class="col-sm-3">               
-                    <input type="checkbox" class="col-sm-1">
+                    <label class="price col-sm-2" id="price_extra">30$</label>
+                    <img id="preview" src="../images/fanta.png" class="col-sm-3">
                     <br>
                     <select id="extra_entree">
                         <%entrees.forEach(function(entree) {%>
@@ -74,6 +73,7 @@
                             <% }%>
                         <%}); %>
                     </select>
+                    <input type="button" value="Ajouter au panier" name="extra" id="extra" class="col-sm-2">
                 </div>
         </div><br>
         <div class id="entrées">
