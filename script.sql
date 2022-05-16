@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS elem_livraison;
 DROP TABLE IF EXISTS livreur;
 DROP TABLE IF EXISTS size;
 DROP TABLE IF EXISTS ingredients;
+DROP TABLE IF EXISTS elem_custom;
 
 CREATE TABLE boissons(
     id TEXT NOT NULL,
@@ -45,10 +46,11 @@ create TABLE elem_livraison(
     x TEXT
 );
 
-create TABLE elem_compo(
-    id_compo INT,
+create TABLE elem_custom(
+    id_custom INT,
+    id_livraison INT,
     nom TEXT
-)
+);
 
 create TABLE livreur(
     nom TEXT,
@@ -88,13 +90,8 @@ INSERT INTO size(nom,supp) VALUES('Moyenne',2);
 INSERT INTO size(nom,supp) VALUES('Grande',3);
 
 INSERT INTO ingredients(nom,prix) VALUES('Rien',0);
-<<<<<<< HEAD
 INSERT INTO ingredients(nom,prix) VALUES('Sauce_tomate',1);
 INSERT INTO ingredients(nom,prix) VALUES('Creme_fraiche',1);
-=======
-INSERT INTO ingredients(nom,prix) VALUES('Sauce_Tomate',1);
-INSERT INTO ingredients(nom,prix) VALUES('Creme_Fraiche',1);
->>>>>>> add67412d2f08cf7440850bbaef0571f01d5c9de
 INSERT INTO ingredients(nom,prix) VALUES('Gruyere',1);
 INSERT INTO ingredients(nom,prix) VALUES('Mozarella',2);
 INSERT INTO ingredients(nom,prix) VALUES('Jambon',2);

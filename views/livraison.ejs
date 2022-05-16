@@ -33,7 +33,16 @@
                             Type : <%= elem.type_plat%>
                             Nom : <%= elem.nom_plat%>
                             Prix : <%= elem.prix%>
-                            X : <%= elem.x%>
+                            <% if(elem.type_plat === "custom"){ %>
+                                Compo : 
+                                <% elem_custom.forEach(function(elem_c){ %>
+                                    <%if(elem.x === elem_c.id_custom.toString()){%>
+                                        <%= elem_c.nom %>
+                                    <%}%>
+                                <% }); %>
+                            <% }else{%>
+                                X : <%= elem.x%>
+                            <% } %>
                             </li>
                         </ul>
                     <%}%>

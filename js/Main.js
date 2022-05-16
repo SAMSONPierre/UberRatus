@@ -141,10 +141,6 @@ $(document).ready (function () {
 
 			panier.append(new_element);
 			update_price(true,nom_plat);
-
-			button.on("click",function(){
-				alert(button.value);
-			});
 		});
 	}
 
@@ -156,7 +152,10 @@ $(document).ready (function () {
 			let ingredient0 = getIngredient(0);
 			let ingredient1 = getIngredient(1);
 			let ingredient2 = getIngredient(2);
-			let list= ingredient0+" "+ingredient1 +" "+ingredient2;
+			let supplement0 = getSupplement(0);
+			let supplement1 = getSupplement(1);
+			let supplement2 = getSupplement(2);
+			let list= ingredient0+" "+ingredient1 +" "+ingredient2 + " " + supplement0 + " " + supplement1 + " " + supplement2;
 			let input = document.createElement("input");
 			input.type = "hidden";
 			input.name = "panier";
@@ -178,8 +177,10 @@ $(document).ready (function () {
 			panier.append(new_element);
 			update_price(true,nom_plat);
 
-			button.on("click",function(){
-				alert(button.value);
+			$(document).on('change','#size_'+nom_plat,function(){
+				var elem = document.getElementById("size_"+nom_plat);
+				var x = parseInt(elem.value[0])
+				update_price_elem(nom_plat,x);
 			});
 		});
 	}
@@ -193,10 +194,7 @@ $(document).ready (function () {
 		let price = document.getElementById("price_"+nom_plat);
 		return parseInt(price.textContent);
 	}
-	function getNomComplet(nom_plat){
-		let nomComplet = document.getElementById("nom_"+nom_plat);
-		return nomComplet.textContent;
-	}
+
 	function getSauce(nom_plat){
 		let sauce = document.getElementById("sauce_"+nom_plat);
 		return sauce.value;
@@ -204,13 +202,8 @@ $(document).ready (function () {
 
 	function getTaille(nom_plat){
 		let taille = document.getElementById("size_"+nom_plat);
-<<<<<<< HEAD
 		let taille_split = taille.value.split(" ");
 		return taille_split[1];
-=======
-		let word = taille.value.split(' ');
-		return word[1];
->>>>>>> add67412d2f08cf7440850bbaef0571f01d5c9de
 	}
 	function getIngredient(numero){
 		let compo = document.getElementById("ingredient_list"+numero);
@@ -219,6 +212,8 @@ $(document).ready (function () {
 
 	function getSupplement(numero){
 		let supp = document.getElementById("supplement_list"+numero);
+		let res = supp.value.split(" ")
+		return res[1];
 	}
 
 	function getVolume(nom_plat){
