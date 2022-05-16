@@ -226,7 +226,7 @@ serv.post('/connexion',function(req,res){
     else{
         console.log("Vous avez une commande à livrer");
     }
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size});
 });
 
 serv.post('/formulaire',function(req,res){
@@ -238,8 +238,18 @@ serv.post('/formulaire',function(req,res){
         
         panier.forEach(element => {
             let tab = element.split(" ");
-            commande.push([tab[0],tab[1],tab[2],tab[3]]);
-            total += parseInt(tab[3]);
+            if(!(tab[0] === "custom")){
+                commande.push([tab[0],tab[1],tab[2],tab[3]]);
+                total += parseInt(tab[3]);
+            }
+            else{
+                let cust = [];
+                for(var i=0;i<tab.length;i++){
+                    cust.push(tab[i]);
+                }
+                commande.push(cust);
+                total+= parseInt(tab[cust.length-1]);
+            }
         });
         res.render('formulaire.ejs');
     }
@@ -259,7 +269,7 @@ serv.post('/livraison',function(req,res){
     pool.query("DELETE FROM elem_livraison WHERE id_livraison = " + id + ";");
     
     attributeCommand();
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size});
 });
 
 serv.post('/merci',function(req,res){
@@ -276,7 +286,17 @@ serv.post('/merci',function(req,res){
     adresse = req.body.adresse + " " + req.body.ville + " " + req.body.postal;
     pool.query("INSERT INTO livraison(id_livraison,adresse,nom,total,livreur) VALUES(" + id +",'" +adresse +"','"+nom + "'," + total + ",'"+ liv + "');");
     commande.forEach(element => {
-        pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[3] + "','" + element[2] +"');" );
+        //console.log(element);
+        if(element[0] === "custom"){
+            //console.log(element);
+            pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[element.length-1] + "','" + element[2] +"');" );
+            for(var i=0;i<element.length-2;i++){
+                
+            }
+        }
+        else{
+            pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[3] + "','" + element[2] +"');" );
+        }
     });
     pool.query("UPDATE livreur SET flag = true WHERE livreur.nom = '"+ liv +"';");
     if(liv === "waiting"){
