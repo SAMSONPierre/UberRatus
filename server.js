@@ -9,7 +9,7 @@ const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
 database: 'ubereats',
-password: 'post314', // à modifier
+password: 'dinoclier', // à modifier
 port: 5432
 });
 
@@ -40,6 +40,8 @@ var flag = false;
 var livreur_dispo = [];
 var commande_en_attente = [];
 var livreur_pas_en_service = [];
+var id_custom = 0;
+var elem_custom;
 
 pool.connect();
 pool.query("SELECT * FROM entrees",(err,res)=>{
@@ -79,6 +81,17 @@ pool.query("SELECT * FROM boissons",(err,res)=>{
     }
     
 });
+
+pool.query("SELECT * FROM elem_custom",(err,res)=>{
+    if(!err){
+        elem_custom = res.rows;
+    }
+    else{
+        console.log(console.error);
+    }
+    
+});
+
 function getLivraison(){
     return promise = new Promise((resolve, reject) => {
         pool.query("SELECT * FROM livraison",(err,res)=>{
@@ -97,6 +110,19 @@ function getLivraison(){
 function getElemLivraison(){
     return promise = new Promise((resolve, reject) => {
         pool.query("SELECT * FROM elem_livraison",(err,res)=>{
+            if(!err){
+                resolve(res.rows);
+            }
+            else{
+                reject(err);
+            }
+        });
+    });
+}
+
+function getElemCustom(){
+    return promise = new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM elem_custom",(err,res)=>{
             if(!err){
                 resolve(res.rows);
             }
@@ -162,12 +188,26 @@ pool.query("SELECT * FROM ingredients",(err,res)=>{
 pool.query("SELECT MAX(id_livraison) FROM livraison",(err,res)=>{
     if(!err){
         try{
-            let test = res.rows;
             let c = res.rows[0].max;
             id = c+1;
         }
         catch{
             id = 0;
+        }
+    }
+    else{
+        console.log(console.error);
+    }
+});
+
+pool.query("SELECT MAX(id_custom) FROM elem_custom",(err,res)=>{
+    if(!err){
+        try{
+            let c = res.rows[0].max;
+            id_custom = c+1;
+        }
+        catch{
+            id_custom = 0;
         }
     }
     else{
@@ -198,7 +238,13 @@ serv.get('/livraison',function(req,res) {
         elem_livraison = res;
     })
     .catch(error => { console.log("test")});
-    res.render("livraison.ejs",{livraison:livraison,elem_livraison:elem_livraison,livreur:name_sessions});
+    getElemCustom()
+    .then(res => {
+        //console.log(res);
+        elem_custom = res;
+    })
+    .catch(error => { console.log("test")});
+    res.render("livraison.ejs",{livraison:livraison,elem_livraison:elem_livraison,livreur:name_sessions,elem_custom:elem_custom});
 });
 
 
@@ -234,11 +280,11 @@ serv.post('/formulaire',function(req,res){
     commande = [];
     total = 0;
     if(panier instanceof Array){
-        console.log(panier);
+        //console.log(panier);
         
         panier.forEach(element => {
             let tab = element.split(" ");
-            if(!(tab[0] === "custom")){
+            if(tab[0] != "custom"){
                 commande.push([tab[0],tab[1],tab[2],tab[3]]);
                 total += parseInt(tab[3]);
             }
@@ -255,8 +301,18 @@ serv.post('/formulaire',function(req,res){
     }
     else{
         let tab = panier.split(" ");
-        commande.push([tab[0],tab[1],tab[2],tab[3]]);
-        total += parseInt(tab[3]);
+        if(tab[0] != "custom"){
+            commande.push([tab[0],tab[1],tab[2],tab[3]]);
+            total += parseInt(tab[3]);
+        }
+        else{
+            let cust = [];
+                for(var i=0;i<tab.length;i++){
+                    cust.push(tab[i]);
+                }
+                commande.push(cust);
+                total+= parseInt(tab[cust.length-1]);
+        }
         res.render("formulaire.ejs");
         
     }
@@ -267,6 +323,7 @@ serv.post('/livraison',function(req,res){
     //console.log(req.body.livre);
     pool.query("DELETE FROM livraison WHERE id_livraison = " + id + ";");
     pool.query("DELETE FROM elem_livraison WHERE id_livraison = " + id + ";");
+    pool.query("DELETE FROM elem_custom WHERE id_livraison = " + id + ";");
     
     attributeCommand();
     res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size});
@@ -286,25 +343,18 @@ serv.post('/merci',function(req,res){
     adresse = req.body.adresse + " " + req.body.ville + " " + req.body.postal;
     pool.query("INSERT INTO livraison(id_livraison,adresse,nom,total,livreur) VALUES(" + id +",'" +adresse +"','"+nom + "'," + total + ",'"+ liv + "');");
     commande.forEach(element => {
-<<<<<<< HEAD
-        //console.log(element);
+
         if(element[0] === "custom"){
-            //console.log(element);
-            pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[element.length-1] + "','" + element[2] +"');" );
-            for(var i=0;i<element.length-2;i++){
-                
+
+            pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[2] + "','" + element[element.length-1] + "','" + id_custom +"');" );
+            for(var i=3;i<element.length-1;i++){
+                pool.query("INSERT INTO elem_custom(id_custom,id_livraison,nom) VALUES("+id_custom+","+ id +",'"+element[i]+"');");
             }
+            id_custom++;
         }
         else{
             pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[3] + "','" + element[2] +"');" );
         }
-=======
-        if(element[0]==="compo"){
-            console.log(element);
-            //pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[0] + "','" + element[element.length-1] +"');" );
-        }
-        pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[3] + "','" + element[2] +"');" );
->>>>>>> add67412d2f08cf7440850bbaef0571f01d5c9de
     });
     pool.query("UPDATE livreur SET flag = true WHERE livreur.nom = '"+ liv +"';");
     if(liv === "waiting"){
@@ -328,7 +378,7 @@ function attributeCommand(){
     }
     else{
         var liv_id = commande_en_attente.shift();
-        pool.query("UPDATE livraison SET livreur = ''"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
+        pool.query("UPDATE livraison SET livreur = '"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
         console.log("La commande n°" + liv_id + " a été attribué à " + name_sessions);
     }
 }

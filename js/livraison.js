@@ -1,5 +1,5 @@
 $(document).ready (function () {
     $(document).on('click','.livrer',function(){
-        alert(this.name);
+        alert("La commande a été livré");
     });
 });
