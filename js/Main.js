@@ -21,7 +21,9 @@ $(document).ready (function () {
 	}
 	$(document).on('click','.button_panier',function(){
 		let b = this.parentNode;
-		const nom_plat = b.innerHTML.split(' ')[0];
+		let nom_plat = b.innerHTML.split(' ')[0];
+		if(nom_plat === "menu") nom_plat = b.innerHTML.split(' ')[1];
+		
 		b.parentNode.removeChild(b);
 		if(getNbElements() == 0){
 			var valider = document.getElementById("submit");
@@ -55,8 +57,13 @@ $(document).ready (function () {
 		entrees(id);
 	});
 
+	document.querySelectorAll('.menu').forEach(function(elem){
+		let id = elem.id;
+		id = id.replace("div_","");
+		menu(id);
+	});
+
 	pizzaComp("custom");
-	menu("extra");
 
 	function boisson(nom_plat){
 		let boisson = $("input[name="+nom_plat+"]");
@@ -193,12 +200,12 @@ $(document).ready (function () {
 		menu.click(function (){
 			let panier = document.getElementById("panier");
 			let new_element = document.createElement("li");
-			let list=getMenu();
+			let list=getMenu(nom_plat);
 			let input = document.createElement("input");
 			input.type = "hidden";
 			input.name = "panier";
-			input.value = "extra" + "  " +list+" "+ getPrice(nom_plat) + "$";
-			new_element.textContent = "extra " +list+" "+ getPrice(nom_plat) + "$";
+			input.value = "menu " + nom_plat + " " +list + getPrice(nom_plat) + "$";
+			new_element.textContent = "menu " + nom_plat + " " +list+" "+ getPrice(nom_plat) + "$";
 			new_element.name = "panier";
 
 			new_element.append(input);
@@ -214,12 +221,6 @@ $(document).ready (function () {
 
 			panier.append(new_element);
 			update_price(true,nom_plat);
-
-			$(document).on('change','#size_'+nom_plat,function(){
-				var elem = document.getElementById("size_"+nom_plat);
-				var x = parseInt(elem.value[0])
-				update_price_elem(nom_plat,x);
-			});
 		});
 	}
 
@@ -259,12 +260,17 @@ $(document).ready (function () {
 		return volume.textContent;
 	}
 
-	function getMenu(){
-		let entree = document.getElementById("extra_entree");
-		let pizza = document.getElementById("extra_pizza");
-		let boisson1 = document.getElementById("extra_boisson1");
-		let boisson2 = document.getElementById("extra_boisson2");
-		let menu = entree.value+" "+pizza.value+" "+boisson1.value+" "+boisson2.value;
+	function getMenu(nom_menu){
+		let menu = "";
+		document.querySelectorAll(".entree_"+nom_menu).forEach(function(elem){
+			menu += elem.value + " ";
+		});
+		document.querySelectorAll(".pizza_"+nom_menu).forEach(function(elem){
+			menu += elem.value + " ";
+		});
+		document.querySelectorAll(".boisson_"+nom_menu).forEach(function(elem){
+			menu += elem.value + " ";
+		});
 		return menu;
 	}
 

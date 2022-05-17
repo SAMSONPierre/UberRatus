@@ -44,37 +44,39 @@
         <h1> Uber Ratus </h1>
         <div  id="menus">
             <h2>Menus</h2>
-                <div id="div_extra" class ="menu row">
-                    <label class="col-sm-2">Extra Menu</label>
-                    <label class="price col-sm-2" id="price_extra">30$</label>
+                <% menus.forEach(function(menu){ %>
+                    <div id="div_<%=menu.id%>" class ="menu row">
+                    <label class="col-sm-2"><%=menu.nom%></label>
+                    <label class="price col-sm-2" id="price_<%=menu.id%>"><%=menu.prix%>$</label>
                     <img id="preview" src="../images/fanta.png" class="col-sm-3">
-                    <br>
-                    <select id="extra_entree">
-                        <%entrees.forEach(function(entree) {%>
-                            <option value="<%=entree.id%>"><%=entree.nom%></option>
-                        <%}); %>
-                    </select>
-                    <select id="extra_pizza">
-                        <%pizzas.forEach(function(pizza) {%>
-                            <option value="<%=pizza.id%>"><%=pizza.nom%></option>
-                        <%}); %>
-                    </select>
-                    <select id="extra_boisson1">
-                        <%boissons.forEach(function(boisson) {%>
-                            <%if(boisson.volume == 33){%>
-                                <option value="<%=boisson.id%>"><%=boisson.nom%></option>
-                                <% }%>
-                        <%}); %>
-                    </select>
-                    <select id="extra_boisson2">
-                        <%boissons.forEach(function(boisson) {%>
-                            <%if(boisson.volume == 33){%>
-                            <option value="<%=boisson.id%>"><%=boisson.nom%></option>
-                            <% }%>
-                        <%}); %>
-                    </select>
-                    <input type="button" value="Ajouter au panier" name="extra" id="extra" class="col-sm-2">
+                    <% for(var i=0;i< menu.entree;i++){%>
+                        <select class="entree_<%=menu.id%>">
+                            <%entrees.forEach(function(entree) {%>
+                                <option value="<%=entree.id%>"><%=entree.nom%></option>
+                            <%}); %>
+                        </select>
+                    <% } %>
+                    <% for(var i=0;i< menu.pizza ;i++){%>
+                        <select class="pizza_<%=menu.id%>">
+                            <%pizzas.forEach(function(pizza) {%>
+                                <option value="<%=pizza.id%>"><%=pizza.nom%></option>
+                            <%}); %>
+                        </select>
+                    <% } %>
+
+                    <% for(var i=0;i< menu.boisson;i++){ %>
+                        <select class="boisson_<%=menu.id%>">
+                            <%boissons.forEach(function(boisson) {%>
+                                <%if(boisson.volume == menu.cond){%>
+                                    <option value="<%=boisson.id%>"><%=boisson.nom%></option>
+                                    <% }%>
+                            <%}); %>
+                        </select>
+                    <% } %>
+                <input type="button" value="Ajouter au panier" name="<%=menu.id%>" id="<%=menu.id%>" class="col-sm-2">
                 </div>
+                <% }); %>
+            
         </div><br>
         <div class id="entrées">
             <h2>Entrées</h2>

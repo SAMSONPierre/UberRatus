@@ -9,7 +9,7 @@ const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
 database: 'ubereats',
-password: 'post314', // à modifier
+password: 'dinoclier', // à modifier
 port: 5432
 });
 
@@ -28,6 +28,7 @@ var id = 0;
 var entrees;
 var pizzas;
 var boissons;
+var menus;
 var ingredients;
 var livraison;
 var elem_livraison;
@@ -42,6 +43,7 @@ var commande_en_attente = [];
 var livreur_pas_en_service = [];
 var id_custom = 0;
 var elem_custom;
+
 
 pool.connect();
 pool.query("SELECT * FROM entrees",(err,res)=>{
@@ -71,6 +73,15 @@ pool.query("SELECT * FROM pizzas",(err,res)=>{
         console.log(console.error);
     }
 })
+
+pool.query("SELECT * FROM menu",(err,res)=>{
+    if(!err){
+        menus = res.rows;
+    }
+    else{
+        console.log(console.error);
+    }
+});
 
 pool.query("SELECT * FROM boissons",(err,res)=>{
     if(!err){
@@ -102,60 +113,7 @@ pool.query("SELECT * FROM elem_menu",(err,res)=>{
 
 });
 
-function getLivraison(){
-    return promise = new Promise((resolve, reject) => {
-        pool.query("SELECT * FROM livraison",(err,res)=>{
-            if(!err){
-                resolve(res.rows);
-            }
-            else{
-                reject(err);
-            }
-        });
-    });
-    
-    
-}
-
-function getElemLivraison(){
-    return promise = new Promise((resolve, reject) => {
-        pool.query("SELECT * FROM elem_livraison",(err,res)=>{
-            if(!err){
-                resolve(res.rows);
-            }
-            else{
-                reject(err);
-            }
-        });
-    });
-}
-
-function getElemCustom(){
-    return promise = new Promise((resolve, reject) => {
-        pool.query("SELECT * FROM elem_custom",(err,res)=>{
-            if(!err){
-                resolve(res.rows);
-            }
-            else{
-                reject(err);
-            }
-        });
-    });
-}
-function getElemMenu(){
-    return promise = new Promise((resolve, reject) => {
-        pool.query("SELECT * FROM elem_menu",(err,res)=>{
-            if(!err){
-                resolve(res.rows);
-            }
-            else{
-                reject(err);
-            }
-        });
-    });
-}
-
-  pool.query("SELECT * FROM livreur ",(err,res)=>{
+pool.query("SELECT * FROM livreur ",(err,res)=>{
     if(!err){
         livreur = res.rows;
     }
@@ -164,18 +122,6 @@ function getElemMenu(){
     }
     
 });
-
-function getLivreurDispo(){
-    livreur.forEach(element => {
-        if(!element.flag && element.en_service){
-            livreur_dispo.push(element.nom);
-        }
-        else if(!element.en_service){
-            livreur_pas_en_service.push(element.nom);
-        }
-    });
-}
-
 
 pool.query("SELECT * FROM livraison ",(err,res)=>{
     if(!err){
@@ -257,29 +203,12 @@ serv.use(bodyParser.urlencoded());
 
 serv.get('/',function (req,res) {
     if(!flag){ getLivreurDispo(); flag = true;}
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus});
 });
 
 serv.get('/livraison',function(req,res) {
-    getLivraison()
-    .then(res => {
-        //console.log(res);
-        livraison = res;
-    })
-    .catch(error => { console.log("test")});
-    getElemLivraison()
-    .then(res => {
-        //console.log(res);
-        elem_livraison = res;
-    })
-    .catch(error => { console.log("test")});
-    getElemCustom()
-    .then(res => {
-        //console.log(res);
-        elem_custom = res;
-    })
-    .catch(error => { console.log("test")});
-    res.render("livraison.ejs",{livraison:livraison,elem_livraison:elem_livraison,livreur:name_sessions,elem_custom:elem_custom});
+    queryForLivraison();
+    res.render("livraison.ejs",{livraison:livraison,elem_livraison:elem_livraison,livreur:name_sessions,elem_custom:elem_custom,elem_menu:elem_menu});
 });
 
 
@@ -307,7 +236,7 @@ serv.post('/connexion',function(req,res){
     else{
         console.log("Vous avez une commande à livrer");
     }
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus});
 });
 
 serv.post('/formulaire',function(req,res){
@@ -319,11 +248,7 @@ serv.post('/formulaire',function(req,res){
         
         panier.forEach(element => {
             let tab = element.split(" ");
-            if(tab[0] != "custom"){
-                commande.push([tab[0],tab[1],tab[2],tab[3]]);
-                total += parseInt(tab[3]);
-            }
-            else{
+            if(tab[0] === "custom" || tab[0] === "menu"){
                 let cust = [];
                 for(var i=0;i<tab.length;i++){
                     cust.push(tab[i]);
@@ -331,22 +256,26 @@ serv.post('/formulaire',function(req,res){
                 commande.push(cust);
                 total+= parseInt(tab[cust.length-1]);
             }
+            else{
+                commande.push([tab[0],tab[1],tab[2],tab[3]]);
+                total += parseInt(tab[3]);
+            }
         });
         res.render('formulaire.ejs');
     }
     else{
         let tab = panier.split(" ");
-        if(tab[0] != "custom"){
-            commande.push([tab[0],tab[1],tab[2],tab[3]]);
-            total += parseInt(tab[3]);
-        }
-        else{
+        if(tab[0] === "custom" || tab[0] === "menu"){
             let cust = [];
                 for(var i=0;i<tab.length;i++){
                     cust.push(tab[i]);
                 }
                 commande.push(cust);
                 total+= parseInt(tab[cust.length-1]);
+        }
+        else{
+            commande.push([tab[0],tab[1],tab[2],tab[3]]);
+            total += parseInt(tab[3]);
         }
         res.render("formulaire.ejs");
         
@@ -359,9 +288,10 @@ serv.post('/livraison',function(req,res){
     pool.query("DELETE FROM livraison WHERE id_livraison = " + id + ";");
     pool.query("DELETE FROM elem_livraison WHERE id_livraison = " + id + ";");
     pool.query("DELETE FROM elem_custom WHERE id_livraison = " + id + ";");
+    pool.query("DELETE FROM elem_menu WHERE id_livraison = " + id +";");
     
     attributeCommand();
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus});
 });
 
 serv.post('/merci',function(req,res){
@@ -386,6 +316,13 @@ serv.post('/merci',function(req,res){
                 pool.query("INSERT INTO elem_custom(id_custom,id_livraison,nom) VALUES("+id_custom+","+ id +",'"+element[i]+"');");
             }
             id_custom++;
+        }
+        else if(element[0] === "menu"){
+            pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[element.length-1] + "','" + id_menu +"');");
+            for(var i=2;i<element.length-1;i++){
+                pool.query("INSERT INTO elem_menu(id_menu,id_livraison,nom) VALUES(" + id_menu + "," + id + ",'" + element[i] + "');");
+            }
+            id_menu++;
         }
         else{
             pool.query("INSERT INTO elem_livraison(id_livraison,type_plat,nom_plat,prix,x) VALUES(" + id +",'" + element[0] + "','" + element[1] + "','" + element[3] + "','" + element[2] +"');" );
@@ -416,4 +353,91 @@ function attributeCommand(){
         pool.query("UPDATE livraison SET livreur = '"+ name_sessions+ "' WHERE id_livraison = " +liv_id +";");
         console.log("La commande n°" + liv_id + " a été attribué à " + name_sessions);
     }
+}
+
+function queryForLivraison(){
+    getLivraison()
+    .then(res => {
+        livraison = res;
+    })
+    .catch(error => { console.log(error)});
+    getElemLivraison()
+    .then(res => {
+        elem_livraison = res;
+    })
+    .catch(error => { console.log(error)});
+    getElemCustom()
+    .then(res => {
+        elem_custom = res;
+    })
+    .catch(error => { console.log(error)});
+    getElemMenu()
+    .then(res =>{
+        elem_menu = res;
+    })
+    .catch(error => {console.log(error)});
+}
+
+function getLivreurDispo(){
+    livreur.forEach(element => {
+        if(!element.flag && element.en_service){
+            livreur_dispo.push(element.nom);
+        }
+        else if(!element.en_service){
+            livreur_pas_en_service.push(element.nom);
+        }
+    });
+}
+//TODO getElem(nom) pour concaténer ces 4 fonctions
+function getElemCustom(){
+    return promise = new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM elem_custom",(err,res)=>{
+            if(!err){
+                resolve(res.rows);
+            }
+            else{
+                reject(err);
+            }
+        });
+    });
+}
+function getElemMenu(){
+    return promise = new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM elem_menu",(err,res)=>{
+            if(!err){
+                resolve(res.rows);
+            }
+            else{
+                reject(err);
+            }
+        });
+    });
+}
+
+function getElemLivraison(){
+    return promise = new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM elem_livraison",(err,res)=>{
+            if(!err){
+                resolve(res.rows);
+            }
+            else{
+                reject(err);
+            }
+        });
+    });
+}
+
+function getLivraison(){
+    return promise = new Promise((resolve, reject) => {
+        pool.query("SELECT * FROM livraison",(err,res)=>{
+            if(!err){
+                resolve(res.rows);
+            }
+            else{
+                reject(err);
+            }
+        });
+    });
+    
+    
 }

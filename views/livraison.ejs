@@ -34,14 +34,29 @@
                             Nom : <%= elem.nom_plat%>
                             Prix : <%= elem.prix%>
                             <% if(elem.type_plat === "custom"){ %>
-                                Compo : 
+                                La pizza est composé de :
+                                <ul> 
                                 <% elem_custom.forEach(function(elem_c){ %>
                                     <%if(elem.x === elem_c.id_custom.toString()){%>
-                                        <%= elem_c.nom %>
+                                        <li><%= elem_c.nom %></li>
                                     <%}%>
                                 <% }); %>
-                            <% }else{%>
-                                X : <%= elem.x%>
+                                </ul>
+                            <% }else if(elem.type_plat === "menu"){ %>
+                                <br> Le menu est composé de :
+                                <ul>
+                                <% elem_menu.forEach(function(elem_m){ %>
+                                    <% if(elem.x === elem_m.id_menu.toString()){%>
+                                        <li><%= elem_m.nom %></li>
+                                    <% } %>
+                                <% }); %>
+                                </ul>
+                            <% }else if(elem.type_plat === "pizza"){%>
+                                Taille : <%= elem.x%>
+                            <% } else if(elem.type_plat === "entree"){%>
+                                Sauce : <%= elem.x%>
+                            <% } else{%>
+                                Volume : <%= elem.x%>
                             <% } %>
                             </li>
                         </ul>
