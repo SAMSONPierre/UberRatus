@@ -203,6 +203,10 @@ $(document).ready (function () {
 			update_price(true,nom_plat);
 		});
 	}
+<<<<<<< HEAD:js/Main.js
+=======
+
+>>>>>>> fefb589ff14a0f076a6e41e0774f3261d41465e0:js/Fonction.js
 	function menu(nom_plat){
 		let menu = $("input[name="+nom_plat+"]");
 		menu.click(function (){
