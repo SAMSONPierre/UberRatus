@@ -1,9 +1,9 @@
-h1 {
+h2 {
 	text-align: center;
 }
 
-h2 {
-    margin-left: 15%;
+body{
+	background-color: rgb(113, 113, 113);
 }
 
 #price{
@@ -16,8 +16,16 @@ h2 {
 	clear:both;
 }
 
+#titre{
+	max-height: 200px;
+	max-width: 500px;
+	text-align:center;
+	margin: auto;
+	display: flex;
+}
+
 .container-fluid{
-	background-color: rgb(162, 162, 162);
+	background-color: rgb(113, 113, 113);
 	color: white;
 }
 
@@ -28,9 +36,30 @@ h2 {
 .quantité{
 	max-width: 50px;
 }
+
 .submit{
 	text-align: center;
 }
+
+.border {
+	background-color: rgb(159, 159, 159);
+	display: grid;
+	border: 2px solid;
+	border-color: #262626;
+	padding-left:5%;
+	padding-right:5% ;
+}
+
+.inner_border {
+	display: grid;
+	border: 2px solid;
+	border-color: #262626;
+	padding-top:10px;
+	margin:20px;
+	margin-bottom: 20px;
+	background-color: rgb(183, 183, 183);
+}
+
 
 #total{
 	font-weight: bold;
@@ -53,5 +82,40 @@ input{
 
 table, th, td {
 	border: 1px solid;
-  }
+}
 
+.nom,.price,.volume,.sauce,.taille{
+	margin: auto;
+	font-size: x-large;
+}
+
+.add{
+	margin: auto;
+	margin-top:10px;
+	margin-bottom: 10px;
+}
+
+input[type=submit], .add {
+    background-color: #6ab700;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+input[type=submit]:hover , .add:hover{
+    background-color: white;
+    color: #6ab700;
+    border: 1px solid #6ab700;
+}
+
+select{
+	background-color: #6ab700;
+	color: white;
+}
+
+select:hover{
+	color: #6ab700;
+	background-color: white;
+	border: 1px solid;
+	border-color: #6ab700;
+}

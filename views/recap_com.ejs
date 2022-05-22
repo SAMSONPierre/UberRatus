@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Informations</title>
+        <link rel="stylesheet" href="../css/connexion.css">
+        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <script src="../js/livraison.js"></script>
+    </head>
+    <body id="body" style="background-color:#6ab700;">
+            <div id="container">                
+                <form action="/connexion" method="POST">
+                    <h1>Merci de votre commande</h1>
+                    <% if (liv === "waiting"){ %>
+                        <p><%= nom %>, </p>
+                        <p>votre commande sera livrée à l'adresse suivante</p>
+                        <p><%=adresse%>,</p>
+                        <p> dès que l'un de nos livreur sera disponible.</p>
+                    <% } else{ %>
+                        <p><%=nom%>, %>
+                        <p> votre commande sera bientôt livrée à l'adresse suivante</p>
+                        <p><%=adresse%>, </p>
+                        <p>par le livreur : <%=liv%></p>
+                    <% } %>
+                    <h2>Récapitulatif : </h2>
+                    <ul>
+                        <% commande.forEach(function(elem){ %>
+                            <h6>- <%=elem[1]%> : </h6>
+                            <% for(var i=2;i<elem.length;i++){ %>
+                                <li><%=elem[i]%></li>
+                            <% } %>
+                        <% }); %>    
+                    </ul>
+                    <h5> Total : <%= total %>$</h5>
+                    <a href="http://localhost:8080/">Retour à l'accueil</a>
+                    </form>
+            </div>
+    </body>
+</html>

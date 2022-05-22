@@ -1,7 +1,8 @@
 $(document).ready (function () {
 	let total = 0;
-	let cpt = 0;
 	let price_base = [];
+	let price_supplement = [];
+	let price_taille= 0;
 
 	price_base["custom"] = getPrice("custom");
 	for(var i =0;i<3;i++){
@@ -10,9 +11,11 @@ $(document).ready (function () {
 			let res = 0;
 			for(var j=0;j<3;j++){
 				var idj = "supplement_list"+j;
-				res += parseInt(document.getElementById(idj).value[0]);
+				let x =  parseInt(document.getElementById(idj).value[0]);
+				price_supplement[i] = x;
+				res += x;
 			}
-			update_price_elem("custom",res);
+			update_price_elem_custom(res+price_taille);
 			
 	   });
 	}
@@ -44,6 +47,22 @@ $(document).ready (function () {
 		});
 
 	});
+
+	$(document).on('change','#size_custom',function(){
+		var elem = document.getElementById("size_custom");
+		var x = parseInt(elem.value[0]);
+		price_taille = x;
+		let res = 0;
+		for(var j=0;j<3;j++){
+			var idj = "supplement_list"+j;
+			let x2 =  parseInt(document.getElementById(idj).value[0]);
+			price_supplement[i] = x2;
+			res += x2;
+		}
+		update_price_elem_custom(price_taille+res);
+	});
+	
+	
 
 	document.querySelectorAll('.boisson').forEach(function(elem) {
 		let id = elem.id;
@@ -119,10 +138,6 @@ $(document).ready (function () {
 
 			panier.append(new_element);
 			update_price(true,nom_plat);
-
-			button.on("click",function(){
-				alert(button.value);
-			});
 		});
 	}
 	function pizzas(nom_plat){
@@ -186,15 +201,8 @@ $(document).ready (function () {
 
 			panier.append(new_element);
 			update_price(true,nom_plat);
-
-			$(document).on('change','#size_'+nom_plat,function(){
-				var elem = document.getElementById("size_"+nom_plat);
-				var x = parseInt(elem.value[0])
-				update_price_elem(nom_plat,x);
-			});
 		});
 	}
-	//TODO
 	function menu(nom_plat){
 		let menu = $("input[name="+nom_plat+"]");
 		menu.click(function (){
@@ -277,15 +285,21 @@ $(document).ready (function () {
 
 
 
-	function update_price(flag,nom_plat){
-		let price = getPrice(nom_plat);
-		if(flag){
-			total +=  price;
-		}
-		else{
-			total -=  price;
-		}
-		let prix = document.getElementById("prix_total");
-		prix.textContent = "Total : " + total + " $."
+function update_price(flag,nom_plat){
+	let price = getPrice(nom_plat);
+	if(flag){
+		total +=  price;
+	}
+	else{
+		total -=  price;
+	}
+	let prix = document.getElementById("prix_total");
+	prix.textContent = "Total : " + total + " $."
+	}
+	function update_price_elem_custom(x){
+		let price = document.getElementById("price_custom");
+		let new_price = price_base["custom"] + x;
+		price.innerHTML = new_price + "$";
 	}
 });
+
