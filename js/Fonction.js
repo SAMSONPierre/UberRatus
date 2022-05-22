@@ -194,7 +194,7 @@ $(document).ready (function () {
 			});
 		});
 	}
-	//TODO
+
 	function menu(nom_plat){
 		let menu = $("input[name="+nom_plat+"]");
 		menu.click(function (){

@@ -9,7 +9,7 @@ const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
 database: 'ubereats',
-password: 'dinoclier', // à modifier
+password: 'post314', // à modifier
 port: 5432
 });
 
@@ -289,7 +289,7 @@ serv.post('/livraison',function(req,res){
     pool.query("DELETE FROM elem_livraison WHERE id_livraison = " + id + ";");
     pool.query("DELETE FROM elem_custom WHERE id_livraison = " + id + ";");
     pool.query("DELETE FROM elem_menu WHERE id_livraison = " + id +";");
-    
+
     attributeCommand();
     res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus});
 });
@@ -438,6 +438,6 @@ function getLivraison(){
             }
         });
     });
-    
-    
+
+
 }
