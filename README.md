@@ -6,9 +6,9 @@
 - SAMSON Pierre
 
 /!\ pour bien connecté la base de donnée au service veuillez bien renseigné vos
-informations postgres dans la `const pool` du `main.js` ligne `8`.
-### Excution
-- Après avoir décompressé l'archive, vous pouvez exécuter le script `ini.sql` pour créer 
+informations postgres dans la `const pool` du `main.js` ligne `14`.
+### Execution
+- Après avoir décompressé l'archive, vous pouvez exécuter le script `init.sql` pour créer 
 et remplir la base de donnée.
 - Vous pouvez désormais lancé le serveur avec la commande `nodejs main.js` sur Linux ou
 `node main.js` sur Windows ou MacOS.
