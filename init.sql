@@ -154,6 +154,23 @@ INSERT INTO ingredients(nom,prix) VALUES('Gruyere',1);
 INSERT INTO ingredients(nom,prix) VALUES('Mozarella',2);
 INSERT INTO ingredients(nom,prix) VALUES('Jambon',2);
 INSERT INTO ingredients(nom,prix) VALUES('Chevre',2);
+INSERT INTO ingredients(nom,prix) VALUES('Anchois',2);
+INSERT INTO ingredients(nom,prix) VALUES('Artichaut',3);
+INSERT INTO ingredients(nom,prix) VALUES('Champignon',2);
+INSERT INTO ingredients(nom,prix) VALUES('Pepperoni',2);
+INSERT INTO ingredients(nom,prix) VALUES('Truffe',5);
+INSERT INTO ingredients(nom,prix) VALUES('Oeuf',2);
+INSERT INTO ingredients(nom,prix) VALUES('Poivron',2);
+INSERT INTO ingredients(nom,prix) VALUES('Roquefort',3);
+INSERT INTO ingredients(nom,prix) VALUES('Olive',2);
+INSERT INTO ingredients(nom,prix) VALUES('Parmigiano',2);
+INSERT INTO ingredients(nom,prix) VALUES('Basilic',1);
+INSERT INTO ingredients(nom,prix) VALUES('Oignon',1);
+INSERT INTO ingredients(nom,prix) VALUES('Capres',2);
+INSERT INTO ingredients(nom,prix) VALUES('Lardon',3);
+INSERT INTO ingredients(nom,prix) VALUES('Raclette',2);
+INSERT INTO ingredients(nom,prix) VALUES('Piment',2);
+
 
 INSERT INTO menu(id,nom,prix,entree,pizza,boisson,cond) VALUES('extra','Menu Extra',20,1,1,2,33);
 INSERT INTO menu(id,nom,prix,entree,pizza,boisson,cond) VALUES('giga','Menu Giga',30,1,2,1,100);
