@@ -3,73 +3,79 @@
     <head>
         <meta charset="UTF-8">
         <title>Informations</title>
-        <link rel="stylesheet" href="../css/Main.css">
+        <link rel="stylesheet" href="../css/connexion.css">
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <link rel="icon" href="images/icon.jpg" type="image/x-icon">
         <script src="../js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../css/bootstrap.min.css">
         <script src="../js/livraison.js"></script>
     </head>
-    <body id="body">
-        <ul>
-            <% livraison.forEach(function(livraison) { %>
-                <% if(livreur === livraison.livreur ){ %>
-                <li>
-                <h3> Commande n°<%=livraison.id_livraison%></h3>
+    <body id="body" style="background-color:#6ab700;">
+        <div class="container">
+            <form action="/livraison" method="POST">
+                <a href="http://localhost:8080/">Retour à l'accueil</a>
+            
                 <ul>
-                <li><label> Identité : <%= livraison.nom%></label></li>
-
-                <li><label> Adresse : <%= livraison.adresse%></label></li>
-                
-                <li><label> Prix total : <%= livraison.total%>$</label></li>
-                    
-                <li><label> Livreur : <%= livraison.livreur%></label></li>
-                </ul>
-                
-                <h5> résumé de la commande </h5>
-                <% elem_livraison.forEach(function(elem){ %>
-                    <% if(elem.id_livraison === livraison.id_livraison){%>
+                    <% livraison.forEach(function(livraison) { %>
+                        <% if(livreur === livraison.livreur || livreur === "administrateur" ){ %>
+                        
+                        <li>
+                        <h3> Commande n°<%=livraison.id_livraison%></h3>
                         <ul>
-                            <li>
-                            Type : <%= elem.type_plat%>
-                            Nom : <%= elem.nom_plat%>
-                            Prix : <%= elem.prix%>
-                            <% if(elem.type_plat === "custom"){ %>
-                                La pizza est composé de :
-                                <ul> 
-                                <% elem_custom.forEach(function(elem_c){ %>
-                                    <%if(elem.x === elem_c.id_custom.toString()){%>
-                                        <li><%= elem_c.nom %></li>
-                                    <%}%>
-                                <% }); %>
-                                </ul>
-                            <% }else if(elem.type_plat === "menu"){ %>
-                                <br> Le menu est composé de :
-                                <ul>
-                                <% elem_menu.forEach(function(elem_m){ %>
-                                    <% if(elem.x === elem_m.id_menu.toString()){%>
-                                        <li><%= elem_m.nom %></li>
-                                    <% } %>
-                                <% }); %>
-                                </ul>
-                            <% }else if(elem.type_plat === "pizza"){%>
-                                Taille : <%= elem.x%>
-                            <% } else if(elem.type_plat === "entree"){%>
-                                Sauce : <%= elem.x%>
-                            <% } else{%>
-                                Volume : <%= elem.x%>
-                            <% } %>
-                            </li>
+                        <li><label> Identité : <%= livraison.nom%></label></li>
+
+                        <li><label> Adresse : <%= livraison.adresse%></label></li>
+                        
+                        <li><label> Prix total : <%= livraison.total%>$</label></li>
+                            
+                        <li><label> Livreur : <%= livraison.livreur%></label></li>
                         </ul>
-                    <%}%>
-                <% }); %>
-                <form action="/livraison" method="POST">
-                    <input type="hidden" value="<%=livraison.id_livraison%>" name="livre">
-                    <input type="submit" value="Commande livrée" class="livrer col-sm-2"> 
-                </form>   
-                </li>
-                <%}%>
-            <% }); %>
-        </ul>
+                        
+                        <h5> résumé de la commande </h5>
+                        <% elem_livraison.forEach(function(elem){ %>
+                            <% if(elem.id_livraison === livraison.id_livraison){%>
+                                <ul>
+                                    <li>
+                                    Type : <%= elem.type_plat%>
+                                    Nom : <%= elem.nom_plat%>
+                                    Prix : <%= elem.prix%>
+                                    <% if(elem.type_plat === "custom"){ %>
+                                        La pizza est composé de :
+                                        <ul> 
+                                        <% elem_custom.forEach(function(elem_c){ %>
+                                            <%if(elem.x === elem_c.id_custom.toString()){%>
+                                                <li><%= elem_c.nom %></li>
+                                            <%}%>
+                                        <% }); %>
+                                        </ul>
+                                    <% }else if(elem.type_plat === "menu"){ %>
+                                        <br> Le menu est composé de :
+                                        <ul>
+                                        <% elem_menu.forEach(function(elem_m){ %>
+                                            <% if(elem.x === elem_m.id_menu.toString()){%>
+                                                <li><%= elem_m.nom %></li>
+                                            <% } %>
+                                        <% }); %>
+                                        </ul>
+                                    <% }else if(elem.type_plat === "pizza"){%>
+                                        Taille : <%= elem.x%>
+                                    <% } else if(elem.type_plat === "entree"){%>
+                                        Sauce : <%= elem.x%>
+                                    <% } else{%>
+                                        Volume : <%= elem.x%>
+                                    <% } %>
+                                    </li>
+                                </ul>
+                            <%}%>
+                        <% }); %>
+                            <input type="hidden" value="<%=livraison.id_livraison%>" name="livre">
+                            <input type="submit" value="Commande livrée" class="livrer col-sm-2"> 
+                        </form>   
+                        </li>
+                        <%}%>
+                    <% }); %>
+                </ul>
+            
+        </div>
     </body>
 </html>

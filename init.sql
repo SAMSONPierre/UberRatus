@@ -81,6 +81,15 @@ create TABLE livreur(
     en_service boolean
 );
 
+create TABLE utilisateur(
+    pseudo TEXT,
+    nom TEXT,
+    prenom TEXT,
+    mdp TEXT,
+    adresse TEXT,
+    ville TEXT
+);
+
 create TABLE size(
     nom TEXT,
     supp int
@@ -103,17 +112,28 @@ INSERT INTO boissons(id,nom, volume,prix) VALUES ('fanta1L','Fanta 1L',100,5);
 
 
 INSERT INTO pizzas(id,nom,prix) VALUES ('margherita','Margherita',10);
-INSERT INTO pizzas(id,nom,prix) VALUES ('calzone','Calzone',10);
-INSERT INTO pizzas(id,nom,prix) VALUES ('napolitaine','Napolitaine',10);
+INSERT INTO pizzas(id,nom,prix) VALUES ('4fromages','4 Fromages',13);
+INSERT INTO pizzas(id,nom,prix) VALUES ('napolitaine','Napolitaine',12);
+INSERT INTO pizzas(id,nom,prix) VALUES ('brooklyn','Brooklyn',11);
+INSERT INTO pizzas(id,nom,prix) VALUES ('marinara','Marinara',10);
+INSERT INTO pizzas(id,nom,prix) VALUES ('prosciutto_et_funghi','Prosciutto y Funghi',13);
+INSERT INTO pizzas(id,nom,prix) VALUES ('speckiale','Speckiale',12);
+INSERT INTO pizzas(id,nom,prix) VALUES ('tartufo_speck','Tartufo Speck',15);
+INSERT INTO pizzas(id,nom,prix) VALUES ('tripletta','Tripletta',12);
 
-INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('cesar','Salade Cesar',8,'Vinaigrette','Olive');
-INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('wings','Wings de Poulet',8,'ketchup','mayo');
-INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('charcut','Plateau de charcuterie',8,'moutarde','mayo');
+INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('printemps','Salade de Printemps',8,'Vinaigrette','Huile Balsamique');
+INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('italienne','Salade Italienne',7,'Vinaigrette','Huile Balsamique');
+INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('terremer','Salade terre-mer',10,'Vinaigrette','Huile Balsamique');
+INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('mozastick','Batonnets de mozarella',6,'Sauce a la menthe','Sauce au paprika');
+INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('camembert','Beignets au camembert',6,'Sauce a la menthe','Tzatziki');
+INSERT INTO entrees(id,nom,prix,sauce1,sauce2) VALUES ('tenders','Tenders de Poulet',8,'Ketchup','Mayonnaise');
 
-INSERT INTO livreur(nom,flag,en_service) VALUES('billy',true,true);
-INSERT INTO livreur(nom,flag,en_service) VALUES('willy',true,true);
-INSERT INTO livreur(nom,flag,en_service) VALUES('silly',false,true);
-INSERT INTO livreur(nom,flag,en_service) VALUES('test',false,false);
+INSERT INTO livreur(nom,flag,en_service) VALUES('Dimitri Zehef',false,true);
+INSERT INTO livreur(nom,flag,en_service) VALUES('William Comore ',false,false);
+INSERT INTO livreur(nom,flag,en_service) VALUES('Nicolas Mouk',false,false);
+INSERT INTO livreur(nom,flag,en_service) VALUES('Abdelatif Mousson',false,false);
+INSERT INTO livreur(nom,flag,en_service) VALUES('Tony Baston',false,false);
+INSERT INTO livreur(nom,flag,en_service) VALUES('Paul Castagne',false,false);
 
 INSERT INTO size(nom,supp) VALUES('Petite',0);
 INSERT INTO size(nom,supp) VALUES('Moyenne',2);

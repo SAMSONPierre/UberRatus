@@ -3,41 +3,28 @@
     <head>
         <meta charset="UTF-8">
         <title>Informations</title>
-        <link rel="stylesheet" href="../css/Main.css">
+        <link rel="stylesheet" href="../css/connexion.css">
         <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
         <link rel="icon" href="images/icon.jpg" type="image/x-icon">
         <script src="../js/bootstrap.min.js"></script>
         <link rel="stylesheet" href="../css/bootstrap.min.css">
         <script src="../js/Fonction.js"></script>
     </head>
-    <body id="body">
-        <div class="container-fluid">
+    <body id="body" style="background-color:#6ab700;">
+        <div class="container">
             <form action="/merci" method="post">
-                <h1> Détails de la livraise </h1>
-                <div>
-                    <label for="prenom">Prénom</label>
-                    <input type="text" name="prenom" id="prenom" required>
-                </div>
-                <div>
-                    <label for="nom">Nom</label>
-                    <input type="text" name="nom" id="nom" required>
-                </div>
-                <div>
-                    <label for="postal">Code Postal</label>
-                    <input type="text" name="postal" id="postal" required>
-                </div>
-                <div>
-                    <label for="ville">Ville</label>
-                    <input type="text" name="ville" id="ville" required>
-                </div>
-                <div>
-                    <label for="adresse">Adresse</label>
+                <h1> Vos infos </h1>
+                    <label><b>Prénom</b></label>
+                    <input type="text" name="prenom"  required>
+                    <label><b>Nom</b></label>
+                    <input type="text" name="nom"  required>
+                    <label><b>Code Postal</b></label>
+                    <input type="text" name="postal"  required>
+                    <label><b>Ville</b></label>
+                    <input type="text" name="ville"  required>
+                    <label><b>Adresse</b></label>
                     <input type="text" name="adresse" id="adresse" required>
-                </div>
-                <div id="submit">
                     <input type="submit" value="Confirmer la commande">
-                </div>
-
             </form>
         </div>
 

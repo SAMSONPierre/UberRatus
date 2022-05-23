@@ -9,7 +9,7 @@ const pool = new pg.Pool({
 user: 'postgres',
 host: 'localhost',
 database: 'ubereats',
-password: 'post314', // à modifier
+password: 'dinoclier', // à modifier
 port: 5432
 });
 
@@ -203,7 +203,7 @@ serv.use(bodyParser.urlencoded());
 
 serv.get('/',function (req,res) {
     if(!flag){ getLivreurDispo(); flag = true;}
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus,name_sessions:name_sessions});
 });
 
 serv.get('/livraison',function(req,res) {
@@ -218,7 +218,7 @@ serv.get('/connexion',function(req,res){
 
 serv.post('/connexion',function(req,res){
     name_sessions = req.body.name;
-    console.log(livreur_pas_en_service);
+    //console.log(livreur_pas_en_service);
     console.log("WELCOME " + name_sessions);
     pool.query("UPDATE livreur SET en_service = true WHERE nom = '" + name_sessions + "';");
     if(livreur_pas_en_service.includes(name_sessions)){
@@ -236,7 +236,11 @@ serv.post('/connexion',function(req,res){
     else{
         console.log("Vous avez une commande à livrer");
     }
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus,name_sessions:name_sessions});
+});
+
+serv.get('/inscription',function(req,res){
+    res.render("inscription.ejs");
 });
 
 serv.post('/formulaire',function(req,res){
@@ -289,9 +293,9 @@ serv.post('/livraison',function(req,res){
     pool.query("DELETE FROM elem_livraison WHERE id_livraison = " + id + ";");
     pool.query("DELETE FROM elem_custom WHERE id_livraison = " + id + ";");
     pool.query("DELETE FROM elem_menu WHERE id_livraison = " + id +";");
-
+    
     attributeCommand();
-    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus});
+    res.render("Main.ejs",{entrees:entrees,boissons:boissons,pizzas:pizzas,ingredients:ingredients,size:size,menus:menus,name_sessions:name_sessions});
 });
 
 serv.post('/merci',function(req,res){
@@ -329,13 +333,8 @@ serv.post('/merci',function(req,res){
         }
     });
     pool.query("UPDATE livreur SET flag = true WHERE livreur.nom = '"+ liv +"';");
-    if(liv === "waiting"){
-        res.send("Votre commande a bien été prise en compte. Elle sera livrée quand un livreur sera disponible !");
-    }
-    else{
-        res.send("Merci " + nom + " pour votre commande. Elle arrivera dans 20 minutes au " + adresse + " et sera livrée par " + liv);
-    }
-        id++;
+    res.render("recap_com.ejs",{commande:commande,total:total,nom:nom,adresse:adresse,liv:liv});
+    id++;
 });
 pool.end;
 serv.listen(8080);
@@ -438,6 +437,6 @@ function getLivraison(){
             }
         });
     });
-
-
+    
+    
 }
