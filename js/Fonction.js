@@ -4,6 +4,9 @@ $(document).ready (function () {
 	let price_supplement = [];
 	let price_taille= 0;
 
+	/* 
+		Pour gérer le changement de suppléments et le changement du prix
+	*/
 	price_base["custom"] = getPrice("custom");
 	for(var i =0;i<3;i++){
 		var id = "supplement_list"+i;
@@ -19,15 +22,17 @@ $(document).ready (function () {
 			
 	   });
 	}
-	function getNbElements(){
-		return $("#panier li").length;
-	}
+
+	/* 
+		Suppression d'un article du panier 
+	*/
 	$(document).on('click','.button_panier',function(){
 		let b = this.parentNode;
 		let nom_plat = b.innerHTML.split(' ')[0];
 		if(nom_plat === "menu") nom_plat = b.innerHTML.split(' ')[1];
 		
 		b.parentNode.removeChild(b);
+		/* On peut pas passer à la page d'après si le panier est vide */
 		if(getNbElements() == 0){
 			var valider = document.getElementById("submit");
 			valider.disabled = true;
@@ -35,18 +40,6 @@ $(document).ready (function () {
 		update_price(false,nom_plat);
 	});
 
-	document.querySelectorAll('.pizza').forEach(function(elem) {
-		let id = elem.id;
-		id = id.replace("div_","");
-		pizzas(id);
-		price_base[id] = getPrice(id);
-		$(document).on('change','#size_'+id,function(){
-			var elem = document.getElementById("size_"+id);
-			var x = parseInt(elem.value[0])
-			update_price_elem(id,x);
-		});
-
-	});
 
 	$(document).on('change','#size_custom',function(){
 		var elem = document.getElementById("size_custom");
@@ -63,37 +56,89 @@ $(document).ready (function () {
 	});
 	
 	
-
+	/*
+		Pour ajouter les éléments au panier
+	*/
 	document.querySelectorAll('.boisson').forEach(function(elem) {
 		let id = elem.id;
 		id = id.replace("div_","");
-		boisson(id);
+		addPanier(id,"boisson");
 	});
 
 	document.querySelectorAll('.entree').forEach(function(elem) {
 		let id = elem.id;
 		id = id.replace("div_","");
-		entrees(id);
+		addPanier(id,"entree");
 	});
 
 	document.querySelectorAll('.menu').forEach(function(elem){
 		let id = elem.id;
 		id = id.replace("div_","");
-		menu(id);
+		addPanier(id,"menu");
 	});
 
-	pizzaComp("custom");
+	document.querySelectorAll('.pizza').forEach(function(elem) {
+		let id = elem.id;
+		id = id.replace("div_","");
+		addPanier(id,"pizza");
+		price_base[id] = getPrice(id);
+		$(document).on('change','#size_'+id,function(){
+			var elem = document.getElementById("size_"+id);
+			var x = parseInt(elem.value[0])
+			update_price_elem(id,x);
+		});
 
-	function boisson(nom_plat){
+	});
+
+	addPanier("custom","custom");
+	
+	/** 
+	* @param nom_plat est le nom du plat et type est le type de plat {boisson,entree,pizza,menu,custom}
+	* @return permet d'ajouter au panier chaque élément du site
+	*/
+	function addPanier(nom_plat,type){
 		let boisson = $("input[name="+nom_plat+"]");
+		/* Si on clique sur le bouton Ajouter au panier du plat */
 		boisson.click(function(){
+			/* Création d'un élément */
 			let panier = document.getElementById("panier");
 			let new_element = document.createElement("li");
 			let input = document.createElement("input");
 			input.type = "hidden";
 			input.name = "panier";
-			input.value = "boisson" + " " + nom_plat + " " + getVolume(nom_plat) + " " + getPrice(nom_plat) + "$";
-			new_element.textContent = nom_plat + " " + getVolume(nom_plat) + " " + getPrice(nom_plat) + "$";
+			switch(type){
+				case "boisson":
+					input.value = "boisson" + " " + nom_plat + " " + 
+					getVolume(nom_plat) + " " + getPrice(nom_plat) + "$";
+				
+					new_element.textContent = nom_plat + " " + getVolume(nom_plat)
+					 + " " + getPrice(nom_plat) + "$";
+					break;
+				case "entree":
+					input.value = "entree" + " " + nom_plat + " " + 
+				getSauce(nom_plat) + " " + getPrice(nom_plat) + "$";
+				
+				new_element.textContent = nom_plat + " " + getSauce(nom_plat)
+				 + " " + getPrice(nom_plat) + "$";
+					break;
+				case "menu":
+					let list=getMenu(nom_plat);
+					input.value = "menu " + nom_plat + " " +list + getPrice(nom_plat) + "$";
+					new_element.textContent = "menu " + nom_plat + " " +list+" "+ getPrice(nom_plat) + "$";
+					break;
+				case "pizza":
+					input.value = "pizza" + " " + nom_plat + " " + 
+					getTaille(nom_plat) + " " + getPrice(nom_plat) + "$";
+				
+					new_element.textContent = nom_plat + " " + 
+					getTaille(nom_plat) + " " + getPrice(nom_plat) + "$";
+					break;
+				case "custom":
+					list = getIngredientsAndSupplements();
+					input.value = "custom" + "  " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
+					new_element.textContent = "custom " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
+					break;
+			}	
 			new_element.name = "panier";
 
 			new_element.append(input);
@@ -106,141 +151,52 @@ $(document).ready (function () {
 
 			let valider = document.getElementById("submit");
 			valider.disabled = false;
-
+			/* Ajout au panier de l'élément */
 			panier.append(new_element);
+			/* On met à jour le prix total */
 			update_price(true,nom_plat);
-			getNbElements();
 		});	
 	}
-	
-	function entrees(nom_plat){
-		let entree = $("input[name="+nom_plat+"]");
-		entree.click(function(){
-			let panier = document.getElementById("panier");
-			let new_element = document.createElement("li");
-			let input = document.createElement("input");
-			input.type = "hidden";
-			input.name = "panier";
-			input.value = "entree" + " " + nom_plat + " " + getSauce(nom_plat) + " " + getPrice(nom_plat) + "$";
-			new_element.textContent = nom_plat + " " + getSauce(nom_plat) + " " + getPrice(nom_plat) + "$";
-			new_element.name = "panier";
 
-			new_element.append(input);
-
-			let button = document.createElement("input");
-			button.type = "button";
-			button.className = "button_panier";
-			button.value = "Supprimer du panier";
-			new_element.append(button);
-
-			let valider = document.getElementById("submit");
-			valider.disabled = false;
-
-			panier.append(new_element);
-			update_price(true,nom_plat);
-		});
-	}
-	function pizzas(nom_plat){
-		let pizza = $("input[name="+nom_plat+"]");
-		pizza.click(function(){
-			let panier = document.getElementById("panier");
-			let new_element = document.createElement("li");
-
-			let input = document.createElement("input");
-			input.type = "hidden";
-			input.name = "panier";
-			input.value = "pizza" + " " + nom_plat + " " + getTaille(nom_plat) + " " + getPrice(nom_plat) + "$";
-			new_element.textContent = nom_plat + " " + getTaille(nom_plat) + " " + getPrice(nom_plat) + "$";
-			new_element.name = "panier";
-
-			new_element.append(input);
-
-			let button = document.createElement("input");
-			button.type = "button";
-			button.className = "button_panier";
-			button.value = "Supprimer du panier";
-			new_element.append(button);
-
-			let valider = document.getElementById("submit");
-			valider.disabled = false;
-
-			panier.append(new_element);
-			update_price(true,nom_plat);
-		});
-	}
-
-	function pizzaComp(nom_plat){
-		let comp = $("input[name="+nom_plat+"]");
-		comp.click(function (){
-			let panier = document.getElementById("panier");
-			let new_element = document.createElement("li");
-			let ingredient0 = getIngredient(0);
-			let ingredient1 = getIngredient(1);
-			let ingredient2 = getIngredient(2);
-			let supplement0 = getSupplement(0);
-			let supplement1 = getSupplement(1);
-			let supplement2 = getSupplement(2);
-			let list= ingredient0+" "+ingredient1 +" "+ingredient2 + " " + supplement0 + " " + supplement1 + " " + supplement2;
-			let input = document.createElement("input");
-			input.type = "hidden";
-			input.name = "panier";
-			input.value = "custom" + "  " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
-			new_element.textContent = "custom " + getTaille(nom_plat) + " " +list+" "+ getPrice(nom_plat) + "$";
-			new_element.name = "panier";
-
-			new_element.append(input);
-
-			let button = document.createElement("input");
-			button.type = "button";
-			button.className = "button_panier";
-			button.value = "Supprimer du panier";
-			new_element.append(button);
-
-			let valider = document.getElementById("submit");
-			valider.disabled = false;
-
-			panier.append(new_element);
-			update_price(true,nom_plat);
-		});
-	}
-<<<<<<< HEAD:js/Main.js
-=======
-
->>>>>>> fefb589ff14a0f076a6e41e0774f3261d41465e0:js/Fonction.js
-	function menu(nom_plat){
-		let menu = $("input[name="+nom_plat+"]");
-		menu.click(function (){
-			let panier = document.getElementById("panier");
-			let new_element = document.createElement("li");
-			let list=getMenu(nom_plat);
-			let input = document.createElement("input");
-			input.type = "hidden";
-			input.name = "panier";
-			input.value = "menu " + nom_plat + " " +list + getPrice(nom_plat) + "$";
-			new_element.textContent = "menu " + nom_plat + " " +list+" "+ getPrice(nom_plat) + "$";
-			new_element.name = "panier";
-
-			new_element.append(input);
-
-			let button = document.createElement("input");
-			button.type = "button";
-			button.className = "button_panier";
-			button.value = "Supprimer du panier";
-			new_element.append(button);
-
-			let valider = document.getElementById("submit");
-			valider.disabled = false;
-
-			panier.append(new_element);
-			update_price(true,nom_plat);
-		});
-	}
-
+	/** 
+	* @param nom_plat est le nom du plat et x le montant à rajouter au prix
+	* @return permet de mettre à jour le prix des pizzas dynamiquement sur la page selon la taille
+	*/
 	function update_price_elem(nom_plat,x){
 		let price = document.getElementById("price_"+nom_plat);
 		let new_price = price_base[nom_plat] + x;
 		price.innerHTML = new_price + "$";
 	}
+	/** 
+	* @param flag est si il faut ajouter ou retire au prix et nom_plat est le nom du plat et x le montant à rajouter au prix
+	* @return permet de mettre à jour le total du panier
+	*/
+	function update_price(flag,nom_plat){
+		let price = getPrice(nom_plat);
+		if(flag){
+			total +=  price;
+		}
+		else{
+			total -=  price;
+		}
+		let prix = document.getElementById("prix_total");
+		prix.textContent = "Total : " + total + " $."
+	}
+	
+	/** 
+	* Fonction unique à custom puisque que la gestion du prix est un peu différente.
+	* @param x est le prix à ajouter
+	* @return permet de mettre à jour le prix de la pizza custom en prenant en compte les suppléments et la taille.
+	*/
+	function update_price_elem_custom(x){
+		let price = document.getElementById("price_custom");
+		let new_price = price_base["custom"] + x;
+		price.innerHTML = new_price + "$";
+	}
+
+	/*
+		GETTERS
+	*/
 	function getPrice(nom_plat){
 		let price = document.getElementById("price_"+nom_plat);
 		return parseInt(price.textContent);
@@ -267,9 +223,24 @@ $(document).ready (function () {
 		return res[1];
 	}
 
+	function getIngredientsAndSupplements(){
+		let list = "";
+		for(var i=0;i<3;i++){
+			list += getIngredient(i) + " ";
+		}
+		for(var i=0;i<2;i++){
+			list += getSupplement(i) + " ";
+		}
+		return list + getSupplement(2);
+	}
+
 	function getVolume(nom_plat){
 		let volume = document.getElementById("vol_"+nom_plat);
 		return volume.textContent;
+	}
+
+	function getNbElements(){
+		return $("#panier li").length;
 	}
 
 	function getMenu(nom_menu){
@@ -285,25 +256,4 @@ $(document).ready (function () {
 		});
 		return menu;
 	}
-
-
-
-
-function update_price(flag,nom_plat){
-	let price = getPrice(nom_plat);
-	if(flag){
-		total +=  price;
-	}
-	else{
-		total -=  price;
-	}
-	let prix = document.getElementById("prix_total");
-	prix.textContent = "Total : " + total + " $."
-	}
-	function update_price_elem_custom(x){
-		let price = document.getElementById("price_custom");
-		let new_price = price_base["custom"] + x;
-		price.innerHTML = new_price + "$";
-	}
 });
-

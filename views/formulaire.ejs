@@ -13,18 +13,30 @@
     <body id="body" style="background-color:#6ab700;">
         <div class="container">
             <form action="/merci" method="post">
+                <button onclick="history.back()">Modifier ma commande</button>
+                <button onclick="location.href = 'http://localhost:8080/';alert('Commande annulée');">Annuler ma commande</button>
                 <h1> Vos infos </h1>
-                    <label><b>Prénom</b></label>
-                    <input type="text" name="prenom"  required>
-                    <label><b>Nom</b></label>
-                    <input type="text" name="nom"  required>
-                    <label><b>Code Postal</b></label>
-                    <input type="text" name="postal"  required>
-                    <label><b>Ville</b></label>
-                    <input type="text" name="ville"  required>
-                    <label><b>Adresse</b></label>
-                    <input type="text" name="adresse" id="adresse" required>
-                    <input type="submit" value="Confirmer la commande">
+                <label><b>Prénom</b></label>
+                <input type="text" name="prenom"  required>
+                <label><b>Nom</b></label>
+                <input type="text" name="nom"  required>
+                <label><b>Code Postal</b></label>
+                <input type="text" name="postal"  required>
+                <label><b>Ville</b></label>
+                <input type="text" name="ville"  required>
+                <label><b>Adresse</b></label>
+                <input type="text" name="adresse" id="adresse" required>
+                <input type="submit" value="Confirmer la commande">
+                <h2>Récapitulatif : </h2>
+                <ul>
+                    <% commande.forEach(function(elem){ %>
+                        <h6>- <%=elem[1]%> : </h6>
+                        <% for(var i=2;i<elem.length;i++){ %>
+                            <li><%=elem[i]%></li>
+                        <% } %>
+                    <% }); %>    
+                </ul>
+                <h5> Total : <%= total %>$</h5>
             </form>
         </div>
 
