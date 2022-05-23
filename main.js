@@ -1,6 +1,7 @@
 const express = require('express');
 const serv= express();
 var bodyParser = require('body-parser')
+const pg = require('pg');
 const hostname = "127.0.0.1";
 const port = 8080;
 
